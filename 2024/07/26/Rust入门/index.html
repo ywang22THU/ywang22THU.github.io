@@ -20,15 +20,15 @@
   <title>Rust入门 - Ywang22</title>
 
   
-    <meta name="description" content="Rust 入门随记 本文用来记录在学习Rust的过程中遇到的各种问题 所有权  函数参数写法是x: &amp;u32而不是&amp;x: u32（蠢了 裸指针不涉及所有权  切片  数组切片的下表索引一定是usize 字符串切片是以字节为单位，一些UTF-8字符（例如中文）会占用多个字节，因此一般不采用切片  项目结构  main.rs为二进制项目的包根，lib.rs为库项目的包根，包根也即cra">
+    <meta name="description" content="Rust学习随记（暂时停更）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Rust入门">
 <meta property="og:url" content="https://ywang22thu.github.io/2024/07/26/Rust%E5%85%A5%E9%97%A8/index.html">
 <meta property="og:site_name" content="Ywang22">
-<meta property="og:description" content="Rust 入门随记 本文用来记录在学习Rust的过程中遇到的各种问题 所有权  函数参数写法是x: &amp;u32而不是&amp;x: u32（蠢了 裸指针不涉及所有权  切片  数组切片的下表索引一定是usize 字符串切片是以字节为单位，一些UTF-8字符（例如中文）会占用多个字节，因此一般不采用切片  项目结构  main.rs为二进制项目的包根，lib.rs为库项目的包根，包根也即cra">
+<meta property="og:description" content="Rust学习随记（暂时停更）">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-07-26T14:36:01.000Z">
-<meta property="article:modified_time" content="2024-08-05T08:55:36.944Z">
+<meta property="article:modified_time" content="2024-09-25T12:03:19.964Z">
 <meta property="article:author" content="ywang">
 <meta property="article:tag" content="Rust">
 <meta name="twitter:card" content="summary">
@@ -64,7 +64,7 @@
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/09/24/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86%E5%8E%9F%E7%90%862/"><span class="title">信号处理原理2</span></a><a class="item title" href="/2024/09/10/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86%E5%8E%9F%E7%90%861/"><span class="title">信号处理原理 1</span></a><a class="item title" href="/2024/07/26/Rust%E5%85%A5%E9%97%A8/"><span class="title">Rust入门</span></a><a class="item title" href="/2024/06/17/IAI-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="title">IAI-神经网络与机器学习</span></a><a class="item title" href="/2024/06/09/IAI-%E6%90%9C%E7%B4%A2/"><span class="title">IAI-搜索</span></a><a class="item title" href="/2024/05/27/IAI-%E7%BB%9F%E8%AE%A1%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="title">IAI-统计机器学习</span></a><a class="item title" href="/2024/05/20/IAI-%E5%AF%B9%E6%8A%97%E6%90%9C%E7%B4%A2/"><span class="title">IAI-对抗搜索</span></a><a class="item title" href="/2024/05/15/%E7%BD%91%E5%8E%9F%E5%8D%95%E8%AF%8D%E8%A1%A8/"><span class="title">网原单词表</span></a><a class="item title" href="/2024/06/15/%E6%A6%82%E7%BB%9F%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">概统复习笔记</span></a><a class="item title" href="/2024/05/08/%E7%BD%91%E5%8E%9F%E7%AC%94%E8%AE%B03/"><span class="title">网原笔记3</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/09/24/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86%E5%8E%9F%E7%90%862/"><span class="title">信号处理原理2</span></a><a class="item title" href="/2024/09/25/%E5%AF%86%E7%A0%81%E5%AD%A6/"><span class="title">密码学</span></a><a class="item title" href="/2024/07/26/Rust%E5%85%A5%E9%97%A8/"><span class="title">Rust入门</span></a><a class="item title" href="/2024/09/10/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86%E5%8E%9F%E7%90%861/"><span class="title">信号处理原理 1</span></a><a class="item title" href="/2024/06/17/IAI-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="title">IAI-神经网络与机器学习</span></a><a class="item title" href="/2024/06/09/IAI-%E6%90%9C%E7%B4%A2/"><span class="title">IAI-搜索</span></a><a class="item title" href="/2024/05/27/IAI-%E7%BB%9F%E8%AE%A1%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="title">IAI-统计机器学习</span></a><a class="item title" href="/2024/05/20/IAI-%E5%AF%B9%E6%8A%97%E6%90%9C%E7%B4%A2/"><span class="title">IAI-对抗搜索</span></a><a class="item title" href="/2024/05/15/%E7%BD%91%E5%8E%9F%E5%8D%95%E8%AF%8D%E8%A1%A8/"><span class="title">网原单词表</span></a><a class="item title" href="/2024/06/15/%E6%A6%82%E7%BB%9F%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">概统复习笔记</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -77,7 +77,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-07-26T14:36:01.000Z">2024-07-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-08-05T08:55:36.944Z">2024-08-05</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-07-26T14:36:01.000Z">2024-07-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-09-25T12:03:19.964Z">2024-09-25</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -88,7 +88,9 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><h1>Rust 入门随记</h1>
+  </div><article class="md-text content"><p>Rust学习随记（暂时停更）</p>
+<span id="more"></span>
+<h1>Rust 入门随记</h1>
 <p>本文用来记录在学习Rust的过程中遇到的各种问题</p>
 <h2 id="所有权">所有权</h2>
 <ul>
