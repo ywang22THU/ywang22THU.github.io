@@ -32,11 +32,19 @@
 <meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ipsecser.png">
 <meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ipsectrans.png">
 <meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ipsecwall.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ahhead.png">
 <meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ahin.png">
 <meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ahout.png">
 <meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ipv4c.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/esphead.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/espin.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/espout.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ike.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ikem.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ike34.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ikef.png">
 <meta property="article:published_time" content="2024-12-13T03:27:55.000Z">
-<meta property="article:modified_time" content="2024-12-13T08:18:11.443Z">
+<meta property="article:modified_time" content="2024-12-13T10:38:28.844Z">
 <meta property="article:author" content="ywang">
 <meta property="article:tag" content="笔记">
 <meta property="article:tag" content="网安">
@@ -89,7 +97,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/">计算机网络安全技术</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-12-13T03:27:55.000Z">2024-12-13</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-12-13T08:18:11.443Z">2024-12-13</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-12-13T03:27:55.000Z">2024-12-13</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-12-13T10:38:28.844Z">2024-12-13</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -204,6 +212,12 @@
 <li>协议模式：隧道模式或传输模式</li>
 <li>Path MTU：任何遵从的最大传送单位路径和迟滞变量</li>
 </ul>
+<h4 id="SA组合">SA组合</h4>
+<p>由于单个SA只能实现AH或ESP中的一种，因此如果需要对曾读物，则需要指定一个SA序列，包括两种方式：</p>
+<ul>
+<li>传输邻接：对一个IP包使用多个安全协议，而组合AH与ESP的方法仅允许一级组合（因为传输模式不改变IP头）</li>
+<li>隧道迭代：通过隧道模式应用多层安全协议</li>
+</ul>
 <h3 id="协议模式">协议模式</h3>
 <p>AH和ESP均支持传输模式和隧道模式</p>
 <h4 id="传输模式">传输模式</h4>
@@ -223,7 +237,7 @@
 <li>隧道模式AH=】认证整个内部IP包和外部IP报头的选中部分</li>
 </ul>
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ipsecwall.png" alt="IPsec隧道模式"/></div><div class="image-meta"><span class="image-caption center">IPsec隧道模式</span></div></div>
-<h2 id="AH">AH</h2>
+<h3 id="AH">AH</h3>
 <p>支持数据完整性与IP包的认证，认证是基于MAC码进行的</p>
 <p>AH认证头包括：</p>
 <ul>
@@ -234,6 +248,7 @@
 <li>Seqence Number：计数器，防止重放攻击，32 bits</li>
 <li>Authentication Data：变长，包含完整性校验值ICV或包的MAC，32*n bits</li>
 </ul>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ahhead.png" alt="AH认证头"/></div><div class="image-meta"><span class="image-caption center">AH认证头</span></div></div>
 <div class="tag-plugin grid"  style="grid-template-columns: repeat(2, 1fr);"><div class="cell" style="">
     <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ahin.png" alt="AH处理输入数据包"/></div><div class="image-meta"><span class="image-caption center">AH处理输入数据包</span></div></div>
     </div>
@@ -242,7 +257,7 @@
     </div>
     </div>
 <p>处理数据报的过程可能需要加入滑动窗口，以防范重放攻击</p>
-<h3 id="反重放攻击">反重放攻击</h3>
+<h4 id="反重放攻击">反重放攻击</h4>
 <p>避免攻击者反复发送经过认证的包，这个在发送方由报头中的序列号保证，但是由于IP是无连接的，因此接收方需要使用滑动窗口</p>
 <p>窗口的右边界<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>为最大的可接受的序号，窗口大小为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi></mrow><annotation encoding="application/x-tex">W</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span></span></span></span></p>
 <ul>
@@ -250,7 +265,7 @@
 <li>超过右边界且新包，则验证MAC，通过则<strong>更新右边界</strong>并标记位置</li>
 <li>如果在左边界之外、该序列号已被标记或包未通过验证，则丢弃</li>
 </ul>
-<h3 id="ICV">ICV</h3>
+<h4 id="ICV">ICV</h4>
 <p>完整性校验值，是一种MAC或MAC的截断</p>
 <p>规范有：</p>
 <ul>
@@ -263,12 +278,137 @@
 <li>AH报头不计算认证数据域，其被置零</li>
 </ul>
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ipv4c.png" alt="IPv4报头中的可变部分"/></div><div class="image-meta"><span class="image-caption center">IPv4报头中的可变部分</span></div></div>
-<h3 id="协议模式-2">协议模式</h3>
+<h4 id="协议模式-2">协议模式</h4>
 <ul>
 <li>当服务器提供传输模式认证时，可以直接使用传输模式</li>
 <li>反之，工作站向防火墙证明自己身份，可以使用隧道模式</li>
 </ul>
-<h2 id="ESP">ESP</h2>
+<h3 id="ESP">ESP</h3>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/esphead.png" alt="ESP报文头"/></div><div class="image-meta"><span class="image-caption center">ESP报文头</span></div></div>
+<p>大部分与AH相同，其中Padding的作用是：</p>
+<ul>
+<li>保证明文长度与加密算法要求的一致</li>
+<li>保证对齐</li>
+<li>隐藏payload的实际长度</li>
+</ul>
+<p>假设源报文为<code>IP_head-payload</code>，则：</p>
+<ul>
+<li>传输模式：<code>IP_head-ESP_head-payload-ESP_tail-MAC</code></li>
+<li>隧道模式：<code>new_IP_head-ESP_head-IP_head-payload-ESP_tail-MAC</code></li>
+</ul>
+<p>对于数据包的处理也基本和AH相同，不同点在于SA中会指定加密方式及加密参数，需要额外进行加解密的操作</p>
+<div class="tag-plugin grid"  style="grid-template-columns: repeat(2, 1fr);"><div class="cell" style="">
+    <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/espin.png" alt="ESP处理输入数据包"/></div><div class="image-meta"><span class="image-caption center">ESP处理输入数据包</span></div></div>
+    </div>
+    <div class="cell" style="">
+    <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/espout.png" alt="ESP处理输出数据报"/></div><div class="image-meta"><span class="image-caption center">ESP处理输出数据报</span></div></div>
+    </div>
+    </div>
+<h2 id="IKE">IKE</h2>
+<p>即Internet Key Exchange，为IPsec提供了自动协商交换密钥、建立安全关联SA的服务，还可以扩展到其他网络保密协议的安全参数协商过程中</p>
+<p>核心技术为DH密钥交换算法，使得IKE具备了完善的前向安全性（指一个密钥被破解，并不影响其他密钥的安全性，这些密钥间没有派生关系）</p>
+<p>IKE的作用为：<strong>IKE不但可自动地为参与通信的实体协商安全关联SA，还可以维护安全关联数据库SADB</strong></p>
+<ul>
+<li>降低手工配置复杂度</li>
+<li>安全关联SA定时更新</li>
+<li>密钥定时更新</li>
+<li>允许IPsec提供反重放服务</li>
+<li>允许在端与端之间动态认证</li>
+</ul>
+<h3 id="报文格式">报文格式</h3>
+<p>继承自ISAKMP，因此也称ISAKMP格式，利用UDP的500端口进行传输，每个ISAKMP报文由一个定长的报文头和不定数量的载荷构成</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ike.png" alt="IKE报文格式"/></div><div class="image-meta"><span class="image-caption center">IKE报文格式</span></div></div>
+<p>报文头包括：</p>
+<ul>
+<li>Initiator Cookie：发起者Cookie，32 bits</li>
+<li>Responder Cookie：应答者Cookie，32 bits</li>
+<li>Next Payload：第一个载荷类型，8 bits</li>
+<li>MjVer：主版本号，4 bits</li>
+<li>MnVer：次版本号，4 bits</li>
+<li>Exchange Type：密钥交换类型，8 bits</li>
+<li>Flags：属性定义，只定义了最低三位，其余位全0，8 bits
+<ul>
+<li><code>[0]</code>：加密位，表示载荷是否加密</li>
+<li><code>[1]</code>：约束位，用于同步密钥交换</li>
+<li><code>[2]</code>：认证位，表示载荷是否有认证</li>
+</ul>
+</li>
+<li>Message ID：标志第二阶段密钥协商对话，由对话发起者生成的随机数，32 bits</li>
+<li>Total Message Length：报文总长度，32 bits</li>
+</ul>
+<p>每一个载荷的载荷头包括：</p>
+<ul>
+<li>Next Payload：后继载荷类型，最后一个载荷对应0，8 bits</li>
+<li>Reserverd：保留字，置零，8 bits</li>
+<li>Payload Length：包括头的载荷长，16 bits</li>
+</ul>
+<p>不同类型的载荷为：</p>
+<ol>
+<li>SA载荷，用来协商安全属性，指明解释域和状态</li>
+<li>Proposal载荷，包含在SA载荷中</li>
+<li>Transform载荷，总是包含在Proposal载荷内</li>
+<li>Key Exchange载荷，传送密钥的各类信息，可为Oakley/DH等所用</li>
+<li>Identification身份认证载荷，传送身份信息</li>
+<li>Certificate证书认证载荷，传送证书和相关信息</li>
+<li>Certificate Request证书请求载荷，向对方要求证书和相关信息</li>
+<li>Hash载荷，传送Hash函数的结果</li>
+<li>Signature签名载荷，传送数字签名信息</li>
+<li>Nonce载荷，传送大随机数，可以防止重放攻击</li>
+<li>Notification通知载荷</li>
+<li>Delete删除载荷，通知对方删除某个或多个SA</li>
+<li>Vendor ID供应商载荷，提供了一种扩展手段</li>
+</ol>
+<h3 id="体系结构">体系结构</h3>
+<p>使用了两个阶段的ISAKMP框架</p>
+<ul>
+<li>创建一个通信信道，并进行验证，为IKE SA
+<ul>
+<li>主模式：6次交互</li>
+<li>快速模式：3次交互</li>
+</ul>
+</li>
+<li>使用第一阶段的IKE SA建立IPsec SA
+<ul>
+<li>快速模式：3次交互</li>
+</ul>
+</li>
+</ul>
+<h4 id="第一阶段">第一阶段</h4>
+<p>建立一个经过验证的安全通道，为后续的协商提供机密性和完整性保护</p>
+<p>其中，主模式提供了对通信双方的身份保护，当身份保护不必要的时候，可以使用积极模式减少信息传输，提高效率</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ikem.png" alt="IKE第一阶段主模式"/></div><div class="image-meta"><span class="image-caption center">IKE第一阶段主模式</span></div></div>
+<p>消息1/2：双方就散列函数、加密算法、认证方法、IKE SA协商的时间限制等进行了协商<br />
+消息3/4：双方采用DH密钥交换算法计算共享密钥，计算方法见下图<br />
+消息5/6：双方发送自己的标识信息、IP地址与主机名，并对其进行hash，如果hash结果一样则认证成功</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ike34.png" alt="DH密钥交换算法"/></div><div class="image-meta"><span class="image-caption center">DH密钥交换算法</span></div></div>
+<p>如果其中一方的IP地址是动态的，或者要求更高的效率，可以采用快速模式</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ikef.png" alt="IKE第一阶段快速模式"/></div><div class="image-meta"><span class="image-caption center">IKE第一阶段快速模式</span></div></div>
+<p>相当于将主模式重组为：(1, 3) - (2, 4, 6) - (5)</p>
+<p>最终建立了IKE SA</p>
+<h4 id="第二阶段">第二阶段</h4>
+<p>基于IKE SA建立IPsec SA，一个IKE SA可以为多个IPsec SA建立服务，一次第二阶段协商可以建立多个安全关联，需要协商的参数有：</p>
+<ul>
+<li>加密算法：包括DES、IDEA、Blowfish、3DES、CAST等</li>
+<li>哈希算法：包括MD5、SHA、Tiger等</li>
+<li>验证方法：包括共享密钥、RSA签名、DSS签名、RSA加密、RSA加密等</li>
+<li>DH组</li>
+<li>存活周期类型及长度：包括秒、千字节等</li>
+<li>密钥长度</li>
+</ul>
+<h3 id="工作模式">工作模式</h3>
+<ul>
+<li>端到端通常使用传输模式</li>
+<li>网关到网关通常使用隧道模式</li>
+<li>其他情况可以采用这两种模式的组合，例如端到网关可以采用隧道模式包裹传输模式的方法</li>
+</ul>
+<h3 id="工作过程">工作过程</h3>
+<p>以守护进程的方式在后台运行，两个守护进程通过500端口的UDP协议来传递消息，其使用SADB和SPDB，和IPsec的工作方式基本相同</p>
+<p>当需要应用IPsec但是没有SA的时候，会向IKE守护进程发送创建SA请求，守护进程查SPDB得到参数之后发出请求，开始协商，协商完成则将新SA增加到SADB中，反之由管理员配置SPDB</p>
+<p>当需要删除SA的时候，守护进程会从SADB中删除SA，并向远程守护进程发消息，远程守护进程可以：</p>
+<ul>
+<li>删除SA</li>
+<li>保留SA但是除去该SA的通信权</li>
+</ul>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -293,7 +433,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">网络层安全协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#IPsec"><span class="toc-text">IPsec</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IPsec%E6%96%87%E6%A1%A3"><span class="toc-text">IPsec文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPsec%E6%9C%8D%E5%8A%A1"><span class="toc-text">IPsec服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%85%B3%E8%81%94SA"><span class="toc-text">安全关联SA</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SA%E9%80%89%E6%8B%A9%E5%AD%90"><span class="toc-text">SA选择子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SA%E5%8F%82%E6%95%B0"><span class="toc-text">SA参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E6%A8%A1%E5%BC%8F"><span class="toc-text">协议模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E6%A8%A1%E5%BC%8F"><span class="toc-text">传输模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%A7%E9%81%93%E6%A8%A1%E5%BC%8F"><span class="toc-text">隧道模式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AH"><span class="toc-text">AH</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB"><span class="toc-text">反重放攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ICV"><span class="toc-text">ICV</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E6%A8%A1%E5%BC%8F-2"><span class="toc-text">协议模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ESP"><span class="toc-text">ESP</span></a></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">网络层安全协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#IPsec"><span class="toc-text">IPsec</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IPsec%E6%96%87%E6%A1%A3"><span class="toc-text">IPsec文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPsec%E6%9C%8D%E5%8A%A1"><span class="toc-text">IPsec服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%85%B3%E8%81%94SA"><span class="toc-text">安全关联SA</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SA%E9%80%89%E6%8B%A9%E5%AD%90"><span class="toc-text">SA选择子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SA%E5%8F%82%E6%95%B0"><span class="toc-text">SA参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SA%E7%BB%84%E5%90%88"><span class="toc-text">SA组合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E6%A8%A1%E5%BC%8F"><span class="toc-text">协议模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E6%A8%A1%E5%BC%8F"><span class="toc-text">传输模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%A7%E9%81%93%E6%A8%A1%E5%BC%8F"><span class="toc-text">隧道模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AH"><span class="toc-text">AH</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB"><span class="toc-text">反重放攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ICV"><span class="toc-text">ICV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E6%A8%A1%E5%BC%8F-2"><span class="toc-text">协议模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ESP"><span class="toc-text">ESP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IKE"><span class="toc-text">IKE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-text">报文格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-text">体系结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5"><span class="toc-text">第一阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5"><span class="toc-text">第二阶段</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-text">工作模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="toc-text">工作过程</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M10.46 1.25h3.08c1.603 0 2.86 0 3.864.095c1.023.098 1.861.3 2.6.752a5.75 5.75 0 0 1 1.899 1.899c.452.738.654 1.577.752 2.6c.095 1.004.095 2.261.095 3.865v1.067c0 1.141 0 2.036-.05 2.759c-.05.735-.153 1.347-.388 1.913a5.75 5.75 0 0 1-3.112 3.112c-.805.334-1.721.408-2.977.43a10.81 10.81 0 0 0-.929.036c-.198.022-.275.054-.32.08c-.047.028-.112.078-.224.232c-.121.166-.258.396-.476.764l-.542.916c-.773 1.307-2.69 1.307-3.464 0l-.542-.916a10.605 10.605 0 0 0-.476-.764c-.112-.154-.177-.204-.224-.232c-.045-.026-.122-.058-.32-.08c-.212-.023-.49-.03-.93-.037c-1.255-.021-2.171-.095-2.976-.429A5.75 5.75 0 0 1 1.688 16.2c-.235-.566-.338-1.178-.389-1.913c-.049-.723-.049-1.618-.049-2.76v-1.066c0-1.604 0-2.86.095-3.865c.098-1.023.3-1.862.752-2.6a5.75 5.75 0 0 1 1.899-1.899c.738-.452 1.577-.654 2.6-.752C7.6 1.25 8.857 1.25 10.461 1.25M6.739 2.839c-.914.087-1.495.253-1.959.537A4.25 4.25 0 0 0 3.376 4.78c-.284.464-.45 1.045-.537 1.96c-.088.924-.089 2.11-.089 3.761v1c0 1.175 0 2.019.046 2.685c.045.659.131 1.089.278 1.441a4.25 4.25 0 0 0 2.3 2.3c.515.214 1.173.294 2.429.316h.031c.398.007.747.013 1.037.045c.311.035.616.104.909.274c.29.17.5.395.682.645c.169.232.342.525.538.856l.559.944a.52.52 0 0 0 .882 0l.559-.944c.196-.331.37-.624.538-.856c.182-.25.392-.476.682-.645c.293-.17.598-.24.909-.274c.29-.032.639-.038 1.037-.045h.032c1.255-.022 1.913-.102 2.428-.316a4.25 4.25 0 0 0 2.3-2.3c.147-.352.233-.782.278-1.441c.046-.666.046-1.51.046-2.685v-1c0-1.651 0-2.837-.089-3.762c-.087-.914-.253-1.495-.537-1.959a4.25 4.25 0 0 0-1.403-1.403c-.464-.284-1.045-.45-1.96-.537c-.924-.088-2.11-.089-3.761-.089h-3c-1.651 0-2.837 0-3.762.089" clip-rule="evenodd"/><path fill="currentColor" d="M9 11a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><span>参与讨论</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
