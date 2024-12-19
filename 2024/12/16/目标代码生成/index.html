@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://ywang22thu.github.io/assets/BYYL/dagy.png">
 <meta property="og:image" content="https://ywang22thu.github.io/assets/BYYL/loop.png">
 <meta property="article:published_time" content="2024-12-16T07:42:07.000Z">
-<meta property="article:modified_time" content="2024-12-18T05:24:55.805Z">
+<meta property="article:modified_time" content="2024-12-19T11:57:49.075Z">
 <meta property="article:author" content="ywang">
 <meta property="article:tag" content="笔记">
 <meta property="article:tag" content="编原">
@@ -85,7 +85,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-12-16T07:42:07.000Z">2024-12-16</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-12-18T05:24:55.805Z">2024-12-18</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-12-16T07:42:07.000Z">2024-12-16</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-12-19T11:57:49.075Z">2024-12-19</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -214,7 +214,7 @@
 <li>待用信息：基本块内某定值点下一次被使用的地方</li>
 <li>活跃信息：基本块中的活跃信息链体现了以语句为单位的活跃变量信息，即如果<code>i</code>定值A、<code>j</code>引用A、<code>i -&gt; j</code>之间没有重新定值，则<code>i -&gt; j</code>之间A是活跃的</li>
 </ul>
-<p>算法为倒序扫描，对于每一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mi>B</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">A = B \mathrm{op} C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord"><span class="mord mathrm">op</span></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span></span></span></span>：</p>
+<p>算法为倒序扫描，对于每一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mi>B</mi><mtext> </mtext><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow><mtext> </mtext><mi>C</mi></mrow><annotation encoding="application/x-tex">A = B \,\mathrm{op}\, C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm">op</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span></span></span></span>：</p>
 <ul>
 <li>A 非待用，非活跃</li>
 <li>B和C 待用信息为<code>i</code>，活跃</li>
@@ -250,8 +250,10 @@
 <p>寄存器相干图定义为：</p>
 <ul>
 <li>节点为伪寄存器</li>
-<li>如果两个伪寄存器可能同时活跃，则这两个节点之间有一条边</li>
+<li>如果在某条语句中，节点<code>i</code>被定值，节点<code>j</code>是活跃的，则<code>i, j</code>之间有一条边</li>
 </ul>
+<p>语句的活跃变量集合可以倒序遍历语句得到，算法为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">live = bb.liveOut</span><br><span class="line"><span class="keyword">for</span> instr <span class="keyword">in</span> bb.instrs[::-<span class="number">1</span>]:</span><br><span class="line">    instr.live = live - instr.<span class="keyword">def</span> + instr.use</span><br></pre></td></tr></table></figure>
 <p>之后用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>为物理寄存器数目）种颜色对相干图进行着色即可，但是k着色是一个NPC问题，因此有一种简单的启发式算法：</p>
 <ul>
 <li>依次删除所有度小于<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>的节点，这些点满足：我们可以在分配完其所有邻居之后为其分配一个新颜色</li>
