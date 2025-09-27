@@ -1,0 +1,977 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.28.1" theme-name="Stellar" theme-version="1.28.1">
+  
+  <meta name="generator" content="Hexo 7.2.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f9fafb">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  
+  <title>网络层安全协议 - Ywang22 的博客</title>
+
+  
+    <meta name="description" content="计算机网络安全技术 笔记 3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络层安全协议">
+<meta property="og:url" content="https://ywang22thu.github.io/posts/a3bf3ab8.html">
+<meta property="og:site_name" content="Ywang22 的博客">
+<meta property="og:description" content="计算机网络安全技术 笔记 3">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/sp.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ipsecdoc.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ipsecser.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ipsectrans.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ipsecwall.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ahhead.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ahin.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ahout.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ipv4c.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/esphead.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/espin.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/espout.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ike.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ikem.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ike34.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/NS/ikef.png">
+<meta property="article:published_time" content="2024-12-13T03:27:55.000Z">
+<meta property="article:modified_time" content="2024-12-24T16:13:25.048Z">
+<meta property="article:author" content="ywang">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="网络层">
+<meta property="article:tag" content="网安">
+<meta property="article:tag" content="安全协议">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ywang22thu.github.io/assets/NS/sp.png">
+  
+  
+  
+  <meta name="keywords" content="笔记,网络层,网安,安全协议">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.28.1">
+
+  
+    <link rel="shortcut icon" href="https://ooo.0x0.ooo/2024/08/28/OtdcdI.jpg">
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css" media="all"/>
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://ooo.0x0.ooo/2024/08/28/OtdcdI.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Ywang22 的博客</div><div class="sub normal cap">Tsinghua University</div><div class="sub hover cap" style="opacity:0"> Computer Science</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="随笔" href="/freenotes/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2M9 12a3 3 0 1 0 0 6a3 3 0 0 0 0-6M5.201 9.807a.75.75 0 0 1 .406.98l-.414 1a.75.75 0 0 1-1.386-.574l.414-1a.75.75 0 0 1 .98-.406m8.52-2.533a.75.75 0 0 0 .84.641c.663-.036 1.988.31 1.988 1.988a.75.75 0 0 0 .642.84c.41.056.793-.264.85-.674l.005-.062a3.775 3.775 0 0 0-.037-.856c-.082-.52-.307-1.217-.893-1.803c-.585-.586-1.282-.81-1.802-.893a3.764 3.764 0 0 0-.856-.037l-.09.01a.755.755 0 0 0-.646.846M9.744 9.19a.75.75 0 0 1-.64.846h-.006l-.007.002l-.02.002a3.114 3.114 0 0 1-.264.016a3.765 3.765 0 0 1-.655-.047c-.52-.082-1.217-.307-1.803-.893c-.585-.586-.81-1.282-.893-1.802a3.765 3.765 0 0 1-.03-.919l.002-.02l.001-.007a.75.75 0 0 1 1.487.194c-.036.662.31 1.987 1.988 1.987a.75.75 0 0 1 .84.641m9.993 3.803a.75.75 0 0 1-.577.876h-.002a1.127 1.127 0 0 0-.309.16c-.192.142-.458.419-.607.974c-.149.556-.057.928.04 1.146a1.135 1.135 0 0 0 .186.294l.002.002a.75.75 0 0 1-.997 1.12l.493-.565l-.492.566l-.002-.002h-.001l-.003-.004l-.008-.006l-.018-.017a2.126 2.126 0 0 1-.188-.207a2.632 2.632 0 0 1-.345-.575c-.226-.512-.358-1.235-.116-2.14s.718-1.465 1.17-1.795a2.634 2.634 0 0 1 .786-.393a1.51 1.51 0 0 1 .067-.018l.024-.005l.01-.002l.004-.001h.002s.002-.001.145.735l-.143-.736a.75.75 0 0 1 .88.593M12.83 17.31a.75.75 0 0 1 1.052-.131l1.579 1.228a.75.75 0 1 1-.921 1.184l-1.579-1.228a.75.75 0 0 1-.131-1.053M15.25 12a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0zM10 4.25h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5m2.03 3.72a.75.75 0 1 0-1.06 1.06l1 1a.75.75 0 1 0 1.06-1.06z" clip-rule="evenodd"/></svg></a><a class="nav-item" title="简历" href="/cv/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="关于" href="/about/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5 1.25a.75.75 0 0 1 .75.75v9c0 1.907.002 3.262.14 4.29c.135 1.005.389 1.585.812 2.008c.423.423 1.003.677 2.009.812c1.028.138 2.382.14 4.289.14h9a.75.75 0 0 1 0 1.5h-2.25V22a.75.75 0 0 1-1.5 0v-2.25h-5.306c-1.838 0-3.294 0-4.433-.153c-1.172-.158-2.121-.49-2.87-1.238c-.748-.749-1.08-1.698-1.238-2.87c-.153-1.14-.153-2.595-.153-4.433V5.75H2a.75.75 0 0 1 0-1.5h2.25V2A.75.75 0 0 1 5 1.25m10.29 4.64c-1.028-.138-2.383-.14-4.29-.14H8a.75.75 0 0 1 0-1.5h3.056c1.838 0 3.294 0 4.433.153c1.172.158 2.121.49 2.87 1.238c.748.749 1.08 1.698 1.238 2.87c.153 1.14.153 2.595.153 4.433V16a.75.75 0 0 1-1.5 0v-3c0-1.907-.002-3.261-.14-4.29c-.135-1.005-.389-1.585-.812-2.008c-.423-.423-1.003-.677-2.009-.812" clip-rule="evenodd"/><path fill="currentColor" d="M8.5 11.5c0-1.414 0-2.121.44-2.56c.439-.44 1.146-.44 2.56-.44h1c1.414 0 2.121 0 2.56.44c.44.439.44 1.146.44 2.56v1c0 1.414 0 2.121-.44 2.56c-.439.44-1.146.44-2.56.44h-1c-1.414 0-2.121 0-2.56-.44c-.44-.439-.44-1.146-.44-2.56z"/></svg></a></nav>
+</div>
+<div class="widgets">
+<widget class="widget-wrapper markdown"><div class="widget-header dis-select"><span class="name">🎉欢迎</span></div><div class="widget-body fs14"><p>加载缓慢请耐心等待，欢迎大家畅所欲言！</p>
+<hr style="border: 1px solid black; background-color: black;">
+<span id="jinrishici-sentence"></span>
+<script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+<br></br>
+</div></widget>
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/52bfecf3.html"><span class="title">大学物理 总结</span></a><a class="item title" href="/posts/c0b798f8.html"><span class="title">网原笔记6</span></a><a class="item title" href="/posts/b7b0a86e.html"><span class="title">网原笔记7</span></a><a class="item title" href="/posts/59bec942.html"><span class="title">网原笔记5</span></a><a class="item title" href="/posts/1b5dc618.html"><span class="title">大学物理 电势</span></a><a class="item title" href="/posts/1e520052.html"><span class="title">大学物理 静电场</span></a><a class="item title" href="/posts/42128f3.html"><span class="title">博客主题配置</span></a><a class="item title" href="/posts/c6ee6588.html"><span class="title">Hexo + Stellar</span></a><a class="item title" href="/posts/419eb85b.html"><span class="title">推免过程记录</span></a><a class="item title" href="/posts/7544628b.html"><span class="title">集群使用问题记录</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/">计算机网络安全技术</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-12-13T03:27:55.000Z">2024-12-13</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-12-24T16:13:25.048Z">2024-12-25</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：3.3k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：12分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE/">安全协议</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E7%BD%91%E5%AE%89/">网安</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a>&nbsp</div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>网络层安全协议</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><p>计算机网络安全技术 笔记 3</p>
+<span id="more"></span>
+<h1>网络层安全协议</h1>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/sp.png" alt="协议栈与每一层的安全协议" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">协议栈与每一层的安全协议</span></div></div>
+<h2 id="IPsec">IPsec</h2>
+<p>现有IP协议无认证、无完整性保证、无保密保证、访问控制不完备，可能面临窃听、伪造IP地址、篡改和重发等</p>
+<p>而IPsec保障了IP级的安全性，包括：</p>
+<ul>
+<li>认证：确保收到的包是从包头标识的源端发出的，而且该包在传输过程中未被篡改</li>
+<li>保密：将报文加密后传输，防止第三方窃听</li>
+<li>密钥管理：密钥管理机制与密钥的安全交换相关</li>
+</ul>
+<p>其用途包括：</p>
+<ul>
+<li>分支机构通过互联网安全互联（VPN）</li>
+<li>远程安全访问互联网</li>
+<li>与合作者建立外联网和内联网联系</li>
+<li>加强电子商务安全性</li>
+</ul>
+<p>IPsec的实施方式非常多样：</p>
+<ul>
+<li>在主机上实施，与操作系统集成，对用户是透明的</li>
+<li>在防火墙上实施，不需要修改操作系统</li>
+<li>在路由器上实施，如VPN的实现</li>
+</ul>
+<h3 id="IPsec文档">IPsec文档</h3>
+<p>重要的文档是1998年发布的RFC系列</p>
+<ul>
+<li>RFC 2401：安全结构概述</li>
+<li>RFC 2402：IP扩展的<strong>包认证</strong>描述（IPv4和IPv6）</li>
+<li>RFC 2406：IP扩展的<strong>包加密</strong>描述（IPv4和IPv6）</li>
+<li>RFC 2408：特定加密机制</li>
+</ul>
+<p>IPv6必须支持这些特性而IPv4可选</p>
+<ul>
+<li>包认证的扩展报头成为认证头（AH），用于提供数据的源发认证和完整性保护</li>
+<li>包加密的扩展报头成为封装安全载荷（ESP），用于提供数据保密、源发认证和完整性保护</li>
+</ul>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ipsecdoc.png" alt="IPsec文档" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">IPsec文档</span></div></div>
+<h3 id="IPsec服务">IPsec服务</h3>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ipsecser.png" alt="IPsec服务" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">IPsec服务</span></div></div>
+<h3 id="安全关联SA">安全关联SA</h3>
+<p>SA是IPsec通信双方之间对某些要素的一组安全信息参数集合，包括但不限于协议、操作模式、密码算法、认证算法、密钥、密钥生存期</p>
+<p>关联是发送方和接收方之间的<strong>单向关系</strong>，如果需要是双向的，则需要两个SA</p>
+<p>SA仅可由AH或ESP之中的一方提供</p>
+<p>SA由三个参数唯一确定：</p>
+<ul>
+<li>安全参数索引SPI
+<ul>
+<li>与SA相关的位串，仅在本地有意义</li>
+<li>由AH与ESP携带，使得接收方能够选择合适的SA</li>
+</ul>
+</li>
+<li>IP目的地址IPDA
+<ul>
+<li>表示SA的目的地址</li>
+</ul>
+</li>
+<li>安全标识协议
+<ul>
+<li>表明是AH还是ESP</li>
+</ul>
+</li>
+</ul>
+<p>每一个IPsec的实施中都有一个数据库SADB，定义了与每个SA相关联的参数元组</p>
+<p>对于需要处理的数据包，首先从其中解析出SPI、IPDA、Protocol，之后查找SADB：</p>
+<ul>
+<li>DB命中，则比对SA的参数，一致则处理，不一致则丢弃</li>
+<li>DB不命中，则根据数据包的方向，输入包丢弃，输出包创建新SADB并存入</li>
+</ul>
+<p>而SA的使用有SPDB即安全策略数据库决定，其中的每一项定义了要保护的数据包及操作，操作包括：</p>
+<ul>
+<li>Discard</li>
+<li>bypass IPsec</li>
+<li>apply IPsec</li>
+</ul>
+<p>最后一种操作会认为接收的数据包已经经过安全服务</p>
+<h4 id="SA选择子">SA选择子</h4>
+<p>用于过滤输出流量，并将其映射到某个特定的SA，定义为IP集合与上层协议</p>
+<p>对于每个要输出的IP包，首先在SPDB中比较相应域的值，寻找匹配的入口，如果存在对应的选择子，则通过对应的SA进行处理</p>
+<p>SPDB的入口选择子包括：</p>
+<ul>
+<li>目的IP地址、源IP地址</li>
+<li>用户标识</li>
+<li>数据敏感性级别</li>
+<li>传输层协议</li>
+<li>IPsec协议</li>
+<li>源端口和目的端口</li>
+<li>IPv6报类</li>
+<li>IPv6报流标签</li>
+<li>IPv6报服务类型</li>
+</ul>
+<h4 id="SA参数">SA参数</h4>
+<p>默认情况下，参数是两种协议都必须实现的</p>
+<ul>
+<li>序列号计数器：每用一次SA保护包自增1，溢出后重新协商</li>
+<li>序列号溢出标记：计数器溢出时置为1，阻止下一次发包并重新协商</li>
+<li>反重放窗口：决定输入报文是否是重放，32位计数器</li>
+<li>AH信息组（AH需要实现）：认证算法，密钥，密钥生存期和AH的相关参数</li>
+<li>ESP信息组（ESP需要实现）：加密和认证算法，密钥，初始值，密钥生存期和ESP的相关参数</li>
+<li>SA生存期：计时器，生存期结束的时候必须终止</li>
+<li>协议模式：隧道模式或传输模式</li>
+<li>Path MTU：任何遵从的最大传送单位路径和迟滞变量</li>
+</ul>
+<h4 id="SA组合">SA组合</h4>
+<p>由于单个SA只能实现AH或ESP中的一种，因此如果需要对曾读物，则需要指定一个SA序列，包括两种方式：</p>
+<ul>
+<li>传输邻接：对一个IP包使用多个安全协议，而组合AH与ESP的方法仅允许一级组合（因为传输模式不改变IP头）</li>
+<li>隧道迭代：通过隧道模式应用多层安全协议</li>
+</ul>
+<h3 id="协议模式">协议模式</h3>
+<p>AH和ESP均支持传输模式和隧道模式</p>
+<h4 id="传输模式">传输模式</h4>
+<p>对上层协议与IP包载荷提供保护</p>
+<ul>
+<li>传输模式ESP加载和认证（可选）IP载荷，不包括报头</li>
+<li>传输模式AH认证IP载荷和报头的选中部分</li>
+</ul>
+<p>传输模式通常用于主机之间的端到端通信</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ipsectrans.png" alt="IPsec传输模式" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">IPsec传输模式</span></div></div>
+<h4 id="隧道模式">隧道模式</h4>
+<p>对整个IP包提供保护</p>
+<ul>
+<li>整个数据包和安全域被当作一个新的IP载荷，并拥有一个新的外部IP报头</li>
+<li>途中经过的路由器不能检查内部IP报头</li>
+<li>隧道模式ESP加密和认证（可选）整个内部IP包，包括内部IP报头</li>
+<li>隧道模式AH=】认证整个内部IP包和外部IP报头的选中部分</li>
+</ul>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ipsecwall.png" alt="IPsec隧道模式" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">IPsec隧道模式</span></div></div>
+<h3 id="AH">AH</h3>
+<p>支持数据完整性与IP包的认证，认证是基于MAC码进行的</p>
+<p>AH认证头包括：</p>
+<ul>
+<li>Next header：标识数据载荷中的封装方式或者协议，8 bits</li>
+<li>Payload length：有效载荷长度，8 bits</li>
+<li>Reserved：16 bits</li>
+<li>SPI：伪随机值，全0代表没有SA，32 bits</li>
+<li>Seqence Number：计数器，防止重放攻击，32 bits</li>
+<li>Authentication Data：变长，包含完整性校验值ICV或包的MAC，32*n bits</li>
+</ul>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ahhead.png" alt="AH认证头" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">AH认证头</span></div></div>
+<div class="tag-plugin grid"  style="grid-template-columns: repeat(2, 1fr);"><div class="cell" style="">
+    <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ahin.png" alt="AH处理输入数据包" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">AH处理输入数据包</span></div></div>
+    </div>
+    <div class="cell" style="">
+    <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ahout.png" alt="AH处理输出数据报" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">AH处理输出数据报</span></div></div>
+    </div>
+    </div>
+<p>处理数据报的过程可能需要加入滑动窗口，以防范重放攻击</p>
+<h4 id="反重放攻击">反重放攻击</h4>
+<p>避免攻击者反复发送经过认证的包，这个在发送方由报头中的序列号保证，但是由于IP是无连接的，因此接收方需要使用滑动窗口</p>
+<p>窗口的右边界<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>为最大的可接受的序号，窗口大小为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi></mrow><annotation encoding="application/x-tex">W</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span></span></span></span></p>
+<ul>
+<li>在窗口中且新包，则验证MAC，通过则标记位置</li>
+<li>超过右边界且新包，则验证MAC，通过则<strong>更新右边界</strong>并标记位置</li>
+<li>如果在左边界之外、该序列号已被标记或包未通过验证，则丢弃</li>
+</ul>
+<h4 id="ICV">ICV</h4>
+<p>完整性校验值，是一种MAC或MAC的截断</p>
+<p>规范有：</p>
+<ul>
+<li>HMAC-MD5-96</li>
+<li>HMAC-SHA-1-96</li>
+</ul>
+<p>计算MAC的过程中，我们令：</p>
+<ul>
+<li>在IP报头中，传输过程中不变的部分和AH SA终点可预测的部分，其他部分全部置零</li>
+<li>AH报头不计算认证数据域，其被置零</li>
+</ul>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ipv4c.png" alt="IPv4报头中的可变部分" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">IPv4报头中的可变部分</span></div></div>
+<h4 id="协议模式-2">协议模式</h4>
+<ul>
+<li>当服务器提供传输模式认证时，可以直接使用传输模式</li>
+<li>反之，工作站向防火墙证明自己身份，可以使用隧道模式</li>
+</ul>
+<h3 id="ESP">ESP</h3>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/esphead.png" alt="ESP报文头" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">ESP报文头</span></div></div>
+<p>大部分与AH相同，其中Padding的作用是：</p>
+<ul>
+<li>保证明文长度与加密算法要求的一致</li>
+<li>保证对齐</li>
+<li>隐藏payload的实际长度</li>
+</ul>
+<p>假设源报文为<code>IP_head-payload</code>，则：</p>
+<ul>
+<li>传输模式：<code>IP_head-ESP_head-payload-ESP_tail-MAC</code></li>
+<li>隧道模式：<code>new_IP_head-ESP_head-IP_head-payload-ESP_tail-MAC</code></li>
+</ul>
+<p>对于数据包的处理也基本和AH相同，不同点在于SA中会指定加密方式及加密参数，需要额外进行加解密的操作</p>
+<div class="tag-plugin grid"  style="grid-template-columns: repeat(2, 1fr);"><div class="cell" style="">
+    <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/espin.png" alt="ESP处理输入数据包" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">ESP处理输入数据包</span></div></div>
+    </div>
+    <div class="cell" style="">
+    <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/espout.png" alt="ESP处理输出数据报" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">ESP处理输出数据报</span></div></div>
+    </div>
+    </div>
+<h2 id="IKE">IKE</h2>
+<p>即Internet Key Exchange，为IPsec提供了自动协商交换密钥、建立安全关联SA的服务，还可以扩展到其他网络保密协议的安全参数协商过程中</p>
+<p>核心技术为DH密钥交换算法，使得IKE具备了完善的前向安全性（指一个密钥被破解，并不影响其他密钥的安全性，这些密钥间没有派生关系）</p>
+<p>IKE的作用为：<strong>IKE不但可自动地为参与通信的实体协商安全关联SA，还可以维护安全关联数据库SADB</strong></p>
+<ul>
+<li>降低手工配置复杂度</li>
+<li>安全关联SA定时更新</li>
+<li>密钥定时更新</li>
+<li>允许IPsec提供反重放服务</li>
+<li>允许在端与端之间动态认证</li>
+</ul>
+<h3 id="报文格式">报文格式</h3>
+<p>继承自ISAKMP，因此也称ISAKMP格式，利用UDP的500端口进行传输，每个ISAKMP报文由一个定长的报文头和不定数量的载荷构成</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ike.png" alt="IKE报文格式" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">IKE报文格式</span></div></div>
+<p>报文头包括：</p>
+<ul>
+<li>Initiator Cookie：发起者Cookie，32 bits</li>
+<li>Responder Cookie：应答者Cookie，32 bits</li>
+<li>Next Payload：第一个载荷类型，8 bits</li>
+<li>MjVer：主版本号，4 bits</li>
+<li>MnVer：次版本号，4 bits</li>
+<li>Exchange Type：密钥交换类型，8 bits</li>
+<li>Flags：属性定义，只定义了最低三位，其余位全0，8 bits
+<ul>
+<li><code>[0]</code>：加密位，表示载荷是否加密</li>
+<li><code>[1]</code>：约束位，用于同步密钥交换</li>
+<li><code>[2]</code>：认证位，表示载荷是否有认证</li>
+</ul>
+</li>
+<li>Message ID：标志第二阶段密钥协商对话，由对话发起者生成的随机数，32 bits</li>
+<li>Total Message Length：报文总长度，32 bits</li>
+</ul>
+<p>每一个载荷的载荷头包括：</p>
+<ul>
+<li>Next Payload：后继载荷类型，最后一个载荷对应0，8 bits</li>
+<li>Reserverd：保留字，置零，8 bits</li>
+<li>Payload Length：包括头的载荷长，16 bits</li>
+</ul>
+<p>不同类型的载荷为：</p>
+<ol>
+<li>SA载荷，用来协商安全属性，指明解释域和状态</li>
+<li>Proposal载荷，包含在SA载荷中</li>
+<li>Transform载荷，总是包含在Proposal载荷内</li>
+<li>Key Exchange载荷，传送密钥的各类信息，可为Oakley/DH等所用</li>
+<li>Identification身份认证载荷，传送身份信息</li>
+<li>Certificate证书认证载荷，传送证书和相关信息</li>
+<li>Certificate Request证书请求载荷，向对方要求证书和相关信息</li>
+<li>Hash载荷，传送Hash函数的结果</li>
+<li>Signature签名载荷，传送数字签名信息</li>
+<li>Nonce载荷，传送大随机数，可以防止重放攻击</li>
+<li>Notification通知载荷</li>
+<li>Delete删除载荷，通知对方删除某个或多个SA</li>
+<li>Vendor ID供应商载荷，提供了一种扩展手段</li>
+</ol>
+<h3 id="体系结构">体系结构</h3>
+<p>使用了两个阶段的ISAKMP框架</p>
+<ul>
+<li>创建一个通信信道，并进行验证，为IKE SA
+<ul>
+<li>主模式：6次交互</li>
+<li>快速模式：3次交互</li>
+</ul>
+</li>
+<li>使用第一阶段的IKE SA建立IPsec SA
+<ul>
+<li>快速模式：3次交互</li>
+</ul>
+</li>
+</ul>
+<h4 id="第一阶段">第一阶段</h4>
+<p>建立一个经过验证的安全通道，为后续的协商提供机密性和完整性保护</p>
+<p>其中，主模式提供了对通信双方的身份保护，当身份保护不必要的时候，可以使用积极模式减少信息传输，提高效率</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ikem.png" alt="IKE第一阶段主模式" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">IKE第一阶段主模式</span></div></div>
+<p>消息1/2：双方就散列函数、加密算法、认证方法、IKE SA协商的时间限制等进行了协商<br />
+消息3/4：双方采用DH密钥交换算法计算共享密钥，计算方法见下图<br />
+消息5/6：双方发送自己的标识信息、IP地址与主机名，并对其DH密钥交换过程中得到的三个密钥进行hash，如果hash结果一样则认证成功</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ike34.png" alt="DH密钥交换算法" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">DH密钥交换算法</span></div></div>
+<p>如果其中一方的IP地址是动态的，或者要求更高的效率，可以采用快速模式</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/NS/ikef.png" alt="IKE第一阶段快速模式" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">IKE第一阶段快速模式</span></div></div>
+<p>相当于将主模式重组为：(1, 3) - (2, 4, 6) - (5)</p>
+<p>最终建立了IKE SA</p>
+<h4 id="第二阶段">第二阶段</h4>
+<p>基于IKE SA建立IPsec SA，一个IKE SA可以为多个IPsec SA建立服务，一次第二阶段协商可以建立多个安全关联，需要协商的参数有：</p>
+<ul>
+<li>加密算法：包括DES、IDEA、Blowfish、3DES、CAST等</li>
+<li>哈希算法：包括MD5、SHA、Tiger等</li>
+<li>验证方法：包括共享密钥、RSA签名、DSS签名、RSA加密、RSA加密等</li>
+<li>DH组</li>
+<li>存活周期类型及长度：包括秒、千字节等</li>
+<li>密钥长度</li>
+</ul>
+<h3 id="工作模式">工作模式</h3>
+<ul>
+<li>端到端通常使用传输模式</li>
+<li>网关到网关通常使用隧道模式</li>
+<li>其他情况可以采用这两种模式的组合，例如端到网关可以采用隧道模式包裹传输模式的方法</li>
+</ul>
+<h3 id="工作过程">工作过程</h3>
+<p>以守护进程的方式在后台运行，两个守护进程通过500端口的UDP协议来传递消息，其使用SADB和SPDB，和IPsec的工作方式基本相同</p>
+<p>当需要应用IPsec但是没有SA的时候，会向IKE守护进程发送创建SA请求，守护进程查SPDB得到参数之后发出请求，开始协商，协商完成则将新SA增加到SADB中，反之由管理员配置SPDB</p>
+<p>当需要删除SA的时候，守护进程会从SADB中删除SA，并向远程守护进程发消息，远程守护进程可以：</p>
+<ul>
+<li>删除SA</li>
+<li>保留SA但是除去该SA的通信权</li>
+</ul>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/bac1e8e7.html">目标代码生成及代码优化基础</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/622389fd.html">信号处理原理 8</a></div></section></div>
+
+
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" src="https://giscus.app/client.js" data-repo="ywang22THU/blog-comments" data-repo-id="R_kgDOPn1NdA" data-category="Announcements" data-category-id="DIC_kwDOPn1NdM4Cu1mk" data-mapping="url" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="https://cdn.jsdelivr.net/gh/L33Z22L11/giscus-theme/lxgw-wenkai.css" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><center>
+<span>
+© 2024
+本网站由 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/FelicxFoster">Ywang22</a>
+使用 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/FelicxFoster/hexo-theme-stellar">Stellar</a>
+创建
+</span>
+<br>
+<!--不蒜子计数器-->
+<script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--添加一个访问量-->
+<span>总访问 <span id="busuanzi_value_site_pv" style="font-weight: bold;"></span> 次 | 本页访问 <span id="busuanzi_value_page_pv" style="font-weight: bold;"></span> 次</span> 
+</br>
+<span id="runtime_span"></span>
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var runtime_span = document.getElementById('runtime_span');
+    
+    function show_runtime() {
+      // 调用定时器
+      setTimeout(show_runtime, 1000);
+    
+      var seconds = 1000;
+      var minutes = seconds * 60;
+      var hours = minutes * 60;
+      var days = hours * 24;
+      var years = days * 365;
+    
+      var today = new Date();
+      var todayYear = today.getFullYear();
+      var todayMonth = today.getMonth();
+      var todayDate = today.getDate();
+      var todayHour = today.getHours();
+      var todayMinute = today.getMinutes();
+      var todaySecond = today.getSeconds();
+    
+      var t1 = Date.UTC(2024, 4, 7, 20, 59, 11); // UTC时间，月份从0开始
+      var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+      var diff = t2 - t1;
+    
+      var diffYears = Math.floor(diff / years);
+      var diffDays = Math.floor((diff / days) - diffYears * 365);
+      var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+      var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+      var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+    
+      // 更新显示时间的span元素内容
+      runtime_span.innerHTML = "🦉营业：" + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒🦉";
+    }
+    
+    show_runtime(); // 初次调用函数以启动定时器
+  });
+</script>
+</center>
+<center> <span class="totalcount">共发表 64 篇 Blog(s) · </span><span class="post-count">总计 145.9k 字</span></center><br/></div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IPsec"><span class="toc-text">IPsec</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IPsec%E6%96%87%E6%A1%A3"><span class="toc-text">IPsec文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPsec%E6%9C%8D%E5%8A%A1"><span class="toc-text">IPsec服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%85%B3%E8%81%94SA"><span class="toc-text">安全关联SA</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SA%E9%80%89%E6%8B%A9%E5%AD%90"><span class="toc-text">SA选择子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SA%E5%8F%82%E6%95%B0"><span class="toc-text">SA参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SA%E7%BB%84%E5%90%88"><span class="toc-text">SA组合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E6%A8%A1%E5%BC%8F"><span class="toc-text">协议模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E6%A8%A1%E5%BC%8F"><span class="toc-text">传输模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%A7%E9%81%93%E6%A8%A1%E5%BC%8F"><span class="toc-text">隧道模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AH"><span class="toc-text">AH</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB"><span class="toc-text">反重放攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ICV"><span class="toc-text">ICV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E6%A8%A1%E5%BC%8F-2"><span class="toc-text">协议模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ESP"><span class="toc-text">ESP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IKE"><span class="toc-text">IKE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-text">报文格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-text">体系结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5"><span class="toc-text">第一阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5"><span class="toc-text">第二阶段</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-text">工作模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="toc-text">工作过程</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M10.46 1.25h3.08c1.603 0 2.86 0 3.864.095c1.023.098 1.861.3 2.6.752a5.75 5.75 0 0 1 1.899 1.899c.452.738.654 1.577.752 2.6c.095 1.004.095 2.261.095 3.865v1.067c0 1.141 0 2.036-.05 2.759c-.05.735-.153 1.347-.388 1.913a5.75 5.75 0 0 1-3.112 3.112c-.805.334-1.721.408-2.977.43a10.81 10.81 0 0 0-.929.036c-.198.022-.275.054-.32.08c-.047.028-.112.078-.224.232c-.121.166-.258.396-.476.764l-.542.916c-.773 1.307-2.69 1.307-3.464 0l-.542-.916a10.605 10.605 0 0 0-.476-.764c-.112-.154-.177-.204-.224-.232c-.045-.026-.122-.058-.32-.08c-.212-.023-.49-.03-.93-.037c-1.255-.021-2.171-.095-2.976-.429A5.75 5.75 0 0 1 1.688 16.2c-.235-.566-.338-1.178-.389-1.913c-.049-.723-.049-1.618-.049-2.76v-1.066c0-1.604 0-2.86.095-3.865c.098-1.023.3-1.862.752-2.6a5.75 5.75 0 0 1 1.899-1.899c.738-.452 1.577-.654 2.6-.752C7.6 1.25 8.857 1.25 10.461 1.25M6.739 2.839c-.914.087-1.495.253-1.959.537A4.25 4.25 0 0 0 3.376 4.78c-.284.464-.45 1.045-.537 1.96c-.088.924-.089 2.11-.089 3.761v1c0 1.175 0 2.019.046 2.685c.045.659.131 1.089.278 1.441a4.25 4.25 0 0 0 2.3 2.3c.515.214 1.173.294 2.429.316h.031c.398.007.747.013 1.037.045c.311.035.616.104.909.274c.29.17.5.395.682.645c.169.232.342.525.538.856l.559.944a.52.52 0 0 0 .882 0l.559-.944c.196-.331.37-.624.538-.856c.182-.25.392-.476.682-.645c.293-.17.598-.24.909-.274c.29-.032.639-.038 1.037-.045h.032c1.255-.022 1.913-.102 2.428-.316a4.25 4.25 0 0 0 2.3-2.3c.147-.352.233-.782.278-1.441c.046-.666.046-1.51.046-2.685v-1c0-1.651 0-2.837-.089-3.762c-.087-.914-.253-1.495-.537-1.959a4.25 4.25 0 0 0-1.403-1.403c-.464-.284-1.045-.45-1.96-.537c-.924-.088-2.11-.089-3.761-.089h-3c-1.651 0-2.837 0-3.762.089" clip-rule="evenodd"/><path fill="currentColor" d="M9 11a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><span>参与讨论</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.28.1" async></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    }
+  })()
+</script>
+
+
+<!-- optional -->
+
+  <script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+<script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+<script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"onload="renderMathInElement(document.body);"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>

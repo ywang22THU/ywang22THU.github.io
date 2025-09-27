@@ -17,25 +17,34 @@
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f9fafb">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   
-  <title>Hexo + Stellar - Ywang22 的博客</title>
+  <title>计算机组成原理1 - Ywang22 的博客</title>
 
   
-    <meta name="description" content="终于弄好了www">
+    <meta name="description" content="计算机组成原理 笔记 1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo + Stellar">
-<meta property="og:url" content="https://ywang22thu.github.io/posts/undefined/index.html">
+<meta property="og:title" content="计算机组成原理1">
+<meta property="og:url" content="https://ywang22thu.github.io/posts/545c7623.html">
 <meta property="og:site_name" content="Ywang22 的博客">
-<meta property="og:description" content="终于弄好了www">
+<meta property="og:description" content="计算机组成原理 笔记 1">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-05-07T13:01:41.000Z">
-<meta property="article:modified_time" content="2025-09-11T11:57:15.078Z">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/COD/riscvins.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/COD/riscvreg.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/COD/ascii.png">
+<meta property="og:image" content="https://ywang22thu.github.io/assets/COD/utf8.png">
+<meta property="article:published_time" content="2024-10-07T06:41:04.000Z">
+<meta property="article:modified_time" content="2024-10-18T11:29:47.812Z">
 <meta property="article:author" content="ywang">
-<meta property="article:tag" content="配置">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="计组">
+<meta property="article:tag" content="指令系统">
+<meta property="article:tag" content="数据表示">
+<meta property="article:tag" content="ALU">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ywang22thu.github.io/assets/COD/riscvins.png">
   
   
   
-  <meta name="keywords" content="配置">
+  <meta name="keywords" content="笔记,计组,指令系统,数据表示,ALU">
 
   <!-- feed -->
   
@@ -71,7 +80,7 @@
 <br></br>
 </div></widget>
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/undefined/"><span class="title">大学物理 总结</span></a><a class="item title" href="/posts/undefined/"><span class="title">网原笔记6</span></a><a class="item title" href="/posts/undefined/"><span class="title">网原笔记7</span></a><a class="item title" href="/posts/undefined/"><span class="title">网原笔记5</span></a><a class="item title" href="/posts/undefined/"><span class="title">大学物理 电势</span></a><a class="item title" href="/posts/undefined/"><span class="title">大学物理 静电场</span></a><a class="item title" href="/posts/undefined/"><span class="title">博客主题配置</span></a><a class="item title" href="/posts/undefined/"><span class="title">Hexo + Stellar</span></a><a class="item title" href="/posts/undefined/"><span class="title">推免过程记录</span></a><a class="item title" href="/posts/undefined/"><span class="title">集群使用问题记录</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/52bfecf3.html"><span class="title">大学物理 总结</span></a><a class="item title" href="/posts/c0b798f8.html"><span class="title">网原笔记6</span></a><a class="item title" href="/posts/b7b0a86e.html"><span class="title">网原笔记7</span></a><a class="item title" href="/posts/59bec942.html"><span class="title">网原笔记5</span></a><a class="item title" href="/posts/1b5dc618.html"><span class="title">大学物理 电势</span></a><a class="item title" href="/posts/1e520052.html"><span class="title">大学物理 静电场</span></a><a class="item title" href="/posts/42128f3.html"><span class="title">博客主题配置</span></a><a class="item title" href="/posts/c6ee6588.html"><span class="title">Hexo + Stellar</span></a><a class="item title" href="/posts/419eb85b.html"><span class="title">推免过程记录</span></a><a class="item title" href="/posts/7544628b.html"><span class="title">集群使用问题记录</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -83,72 +92,242 @@
 <div class="article banner top">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-05-07T13:01:41.000Z">2024-05-07</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-09-11T11:57:15.078Z">2025-09-11</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：750字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：3分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/%E9%85%8D%E7%BD%AE/">配置</a>&nbsp</div></div></div>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-10-07T06:41:04.000Z">2024-10-07</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-10-18T11:29:47.812Z">2024-10-18</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：2k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：7分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/ALU/">ALU</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/">指令系统</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%A4%BA/">数据表示</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E8%AE%A1%E7%BB%84/">计组</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>Hexo + Stellar</span></h1>
+        <h1 class="text title"><span>计算机组成原理1</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><p>终于弄好了www</p>
+  </div><article class="md-text content"><p>计算机组成原理 笔记 1</p>
 <span id="more"></span>
-<p>经过一天的不懈奋斗，在经过了 <code>jekyll</code> 配置环境的痛苦折磨之后，最后选择了用 <code>hexo + github pages</code> 配置，<code>hexo</code> 是一款静态博客工具，使用起来比较简单，指比让从来没有配过 <code>ruby</code> 的我去弄明白 <code>jekyll</code> 简单多了！</p>
-<h3 id="配置方法">配置方法</h3>
+<h1>计算机组成原理 指令与数据</h1>
+<h2 id="计算机指令系统">计算机指令系统</h2>
+<p>指令是计算机运行的最小的功能单元，计算机的指令系统是该计算机提供的全部指令</p>
+<h3 id="指令的功能与分类">指令的功能与分类</h3>
 <ul>
-<li>新建 <code>github</code> 仓库，名为 <code>&lt;username&gt;.github.io</code> ，这个是后来访问用的</li>
-<li>回到本地命令行（我用的是 <code>wsl</code> ）<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">sudo npm install -g hexo-cli (Mac) # 据说Mac得这么干</span><br><span class="line">cd AN-EMPTY-FLRODER # 进入你想放置的本地文件夹 一定要是空的！</span><br><span class="line">hexo init # 初始化hexo内容</span><br><span class="line">npm install # 下载配置</span><br><span class="line">npm install hexo-deployer-git --save # 下载部署工具</span><br></pre></td></tr></table></figure>
-</li>
-<li>此时环境基本配置完毕了，开始修改配置，打开 <code>_config.yml</code>，将其 <code>Deployment</code> 部分改为<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git</span><br><span class="line">  branch: main</span><br></pre></td></tr></table></figure>
-</li>
-<li>部署准备完成<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g -d # 生成页面并部署</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>此时可以访问 <code>https://&lt;username&gt;.github.io</code> 访问自己的博客！</p>
-<h3 id="操作方法">操作方法</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;name&quot;       # 新建文章</span><br><span class="line">hexo new page &quot;name&quot;  # 新建页面</span><br><span class="line">hexo g                # 生成页面</span><br><span class="line">hexo d                # 部署</span><br><span class="line">hexo g -d             # 生成页面并部署</span><br><span class="line">hexo s                # 本地预览</span><br><span class="line">hexo clean            # 清除缓存和已生成的静态文件</span><br><span class="line">hexo help             # 帮助</span><br></pre></td></tr></table></figure>
-<h3 id="更换主题">更换主题</h3>
-<p>进入网站<a target="_blank" rel="noopener" href="https://hexo.io/themes/">https://hexo.io/themes/</a>可以选择主题，挑选好后进行配置，配置方法为在博客根目录<code>.</code>下执行如下命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone THEME-REPO themes/&lt;theme-name&gt;</span><br></pre></td></tr></table></figure>
-<p>例如本博客使用的是 <code>stellar</code> 主题，执行命令为：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:xaoxuu/hexo-theme-stellar.git themes/stellar</span><br></pre></td></tr></table></figure>
-<p>下载好后，在 <code>./_config.yml</code> 下修改 <code>theme</code> 的内容为你想要的即可</p>
-<h3 id="致谢">致谢</h3>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/60578464">https://zhuanlan.zhihu.com/p/60578464</a></p>
-<h3 id="Debug">Debug</h3>
+<li>算数与逻辑运算指令
 <ul>
-<li><code>TypeError: Cannot read properties of null (reading 'utcOffset')</code>
-<ul>
-<li>时区设置错误，允许的中国时区只有 <code>Asia/Harbin</code>, <code>Asia/Shanghai</code>, <code>Asia/Chongqing</code>, <code>Asia/Urumqi</code>, <code>Asia/Kashgar</code></li>
+<li>加、减、乘、除等</li>
+<li>与、或、非、异或等</li>
 </ul>
 </li>
-<li>无法生成<code>.html</code>文件
+<li>移位操作指令
 <ul>
-<li>检查 <code>themes</code> 下的文件名和配置文件中的是否相同，如果相同尝试先 <code>clean</code> 再重新创建，如果还是不行则直接重新 <code>clone</code> 一下主题库（原因未知）</li>
+<li>算数右移（补符号位）、逻辑右移、逻辑左移、循环左移</li>
 </ul>
 </li>
-<li>行内公式无法渲染
+<li>数据传送指令
 <ul>
-<li>更换 <code>md</code> 渲染器，并添加 <code>Katex</code> 支持，方法为：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm un hexo-renderer-marked --save</span><br><span class="line">npm i hexo-renderer-markdown-it --save</span><br><span class="line">npm i @traptitech/markdown-it-katex --save</span><br></pre></td></tr></table></figure>
-并在 <code>./_config.yml</code> 中加入（注意缩进）：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">markdown:</span><br><span class="line">  preset: &#x27;default&#x27;</span><br><span class="line">  render:</span><br><span class="line">    html: true</span><br><span class="line">    xhtmlOut: true</span><br><span class="line">    breaks: true</span><br><span class="line">    langPrefix: &#x27;language-&#x27;</span><br><span class="line">    linkify: true</span><br><span class="line">    typographer: true</span><br><span class="line">    quotes: &#x27;“”‘’&#x27;</span><br><span class="line">  plugins:</span><br><span class="line">    - plugin:</span><br><span class="line">      name: &#x27;@traptitech/markdown-it-katex&#x27;</span><br><span class="line">      options: # see https://katex.org/docs/options.html</span><br><span class="line">        blockClass: &quot;math-block&quot;</span><br><span class="line">        strict: false</span><br><span class="line">        throwOnError: false</span><br><span class="line">        errorColor: &quot;#cc0000&quot;</span><br></pre></td></tr></table></figure>
-</li>
+<li>寄存器之间</li>
+<li>寄存器与内存间</li>
+<li>不同内存之间</li>
 </ul>
 </li>
-<li>单纯做了上面的操作之后会出现行内数字/字母重复渲染的现象，也即一遍纯文本一遍公式文本，例如 <em>ISP</em> 会被渲染成 ISP<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>S</mi><mi>P</mi></mrow><annotation encoding="application/x-tex">ISP</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.13889em;">SP</span></span></span></span>
+<li>输入输出
 <ul>
-<li>在文章头部加上 <code>katex: true</code> 即可</li>
+<li>计算器与外设之间</li>
 </ul>
 </li>
-<li>静态图片问题
+<li>跳转指令
 <ul>
-<li>使用相对于 <code>./source</code> 文件夹的路径，例如 <code>/assets/...</code> 代表存在 <code>./sources/assets/...</code> 下，这样在本地 md 显示会有问题，但是 stellar 可以正常生成</li>
+<li>无条件与条件</li>
 </ul>
 </li>
+<li>调用与返回指令</li>
+<li>堆栈操作指令</li>
+<li>其它</li>
 </ul>
+<h3 id="指令表示">指令表示</h3>
+<p>指令 = 操作码 + 操作数或操作数地址（寄存器、内存或外设）</p>
+<p>即对哪些数据做什么操作</p>
+<p>操作码可以是定长或变长，定长操作码的译码速度更快，变长操作码可以表示的指令更多<br />
+指令是定长的，和机器有关</p>
+<h3 id="操作码的扩展">操作码的扩展</h3>
+<p>显然，操作码的个数会限制指令系统的长度，因此可以对操作码进行扩展，从而支持更多样化的指令</p>
+<p>扩展的方式为：充分利用空闲的位置，例如32位机器上，如果有2个8位地址段作为操作数，则有至多16位可以用于表示操作码，而如果只有1个8为地址段作为操作数，则有至多24位可以用于表示操作码</p>
+<h3 id="寻址方式">寻址方式</h3>
+<p>由于操作数可能需要在某一个地址中进行读取，因此需要指定指令系统的寻址方式：</p>
+<ul>
+<li>立即数寻址：操作数直接给出，无需寻址</li>
+<li>直接寻址：给出内存中的地址</li>
+<li>寄存器寻址：给出操作数所存放在的寄存器编号，则<code>addr = (base)</code></li>
+<li>变址寻址：给出寄存器编号和立即数，则<code>addr = (base) + offset</code></li>
+<li>相对寻址：给出地址相对程序计数器PC的偏移</li>
+<li>间接寻址：通过上述的某种方式，给出指向操作数的指针的地址</li>
+<li>基址寻址：在计算机中设置一个寄存器用于存放固定的基址，指令中给出偏移量</li>
+<li>堆栈寻址：利用<code>sp</code>进行寻址（变址寻址的一种）</li>
+</ul>
+<h2 id="Riscv-指令">Riscv 指令</h2>
+<p>Riscv为定长操作码，如下图，从上到下依次为：寄存器型、立即数型、存储型、分支指令、跳转指令、大立即数</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/COD/riscvins.png" alt="RISCV指令格式" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">RISCV指令格式</span></div></div>
+<p>由于指令长度为32位，因此U型指令是操作一些长立即数，例如向x1中写入0x12345678等</p>
+<h3 id="寄存器">寄存器</h3>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/COD/riscvreg.png" alt="RISCV中的寄存器" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">RISCV中的寄存器</span></div></div>
+<h3 id="算数、位运算、移位指令">算数、位运算、移位指令</h3>
+<p>用后缀指明操作数的类型，无<code>u</code>代表有符号数，有<code>u</code>代表无符号数，<code>i</code>代表第二个操作数是立即数<psw>没有`subi`</psw></p>
+<ul>
+<li><code>op dst, src1, src2</code>: R型</li>
+<li><code>opi dst, src, imm</code>: I型</li>
+<li><code>opu dst, src1, src2</code>: R型</li>
+</ul>
+<p>操作有：</p>
+<ul>
+<li><code>add sub mul div rem neg</code></li>
+<li><code>and or xor not</code></li>
+<li><code>sll srl sra</code></li>
+<li><code>lui reg, imm</code>: U型，加载立即数到指定寄存器的高20位</li>
+</ul>
+<p>其中，<code>mul</code>的结果是64位，但是<code>dst</code>指向的是32位，因此乘法指令有如下变体：</p>
+<ul>
+<li><code>mul rdl, rs1, rs2 &lt;==&gt; rdl = (rs1 * rs2)[31:0]</code></li>
+<li><code>mulh rdh, rs1, rs2 &lt;==&gt; rdh = (rs1 * rs2)[63:32]</code></li>
+<li><code>mulhu rdh, rs1, rs2 &lt;==&gt; rdh = (unsigned(rs1) * (unsigned)rs2)[63:32]</code></li>
+<li><code>mulhsu rdh, rs1, rs2 &lt;==&gt; rdh = (rs1 * (unsigned)rs2)[63:32]</code></li>
+</ul>
+<h3 id="访存指令">访存指令</h3>
+<p>Riscv中有专属的<code>Load/Store</code>指令用于操作内存，其他指令只能操作寄存器，采用变址寻址的方式</p>
+<p><code>l/s reg, offset(base)</code>: Load为I型，Store为S型</p>
+<p>允许以字节为基本单位进行读写：</p>
+<ul>
+<li>一字节：<code>lb, sb</code></li>
+<li>双字节：<code>lh, sh</code></li>
+<li>四字节：<code>lw, sw</code></li>
+</ul>
+<p>注：</p>
+<ol>
+<li>Riscv是小端</li>
+<li><code>lb lh</code>会做符号扩展，而<code>lbu lhu</code>会做<code>0</code>扩展</li>
+</ol>
+<h3 id="分支与跳转">分支与跳转</h3>
+<p>比较指令有：</p>
+<ul>
+<li><code>slt rd, rs1, rs2: rd = 1 if rs1 &lt; rs2 else 0</code>: R型</li>
+<li><code>sgt rd, rs1, rs2: rd = 1 if rs1 &gt; rs2 else 0</code>: R型</li>
+</ul>
+<p>同理还有<code>snez, seqz</code>与0进行比较</p>
+<p>分支跳转指令有：</p>
+<ul>
+<li><code>beq rs1, rs2, label: goto label if rs1 == rs2</code>: B型</li>
+<li><code>bne rs1, rs2, label: goto label if rs1 != rs2</code>: B型</li>
+</ul>
+<p>同理也有<code>blt bgt</code>等</p>
+<p>无条件跳转指令有</p>
+<ul>
+<li><code>jal rd, label: goto label and rd = pc + 4</code>: J型</li>
+<li><code>jalr rd, base, offset: goto [(base) + offset] and rd = pc + 4</code>: J型</li>
+</ul>
+<h3 id="伪指令">伪指令</h3>
+<p>一些更加直观的指令，会被翻译成上述指令</p>
+<ul>
+<li><code>mv dst, src = addi dst, src, 0</code></li>
+<li><code>li dst, imm</code></li>
+<li><code>la dst, label</code></li>
+<li><code>ret = jalr x0, x1, 0</code></li>
+</ul>
+<h3 id="函数调用">函数调用</h3>
+<p>参数：<code>x10 - x17(a0 - a7)</code>为前8个参数，后面的参数倒序入栈，<code>x1(ra)</code>为返回值</p>
+<p>注意需要维护好栈帧指针，并且调用者和被调用者需要维护好对应寄存器</p>
+<h2 id="数据表示与纠错">数据表示与纠错</h2>
+<h3 id="逻辑数据">逻辑数据</h3>
+<ul>
+<li>True: 1</li>
+<li>False: 0</li>
+</ul>
+<h3 id="字符数据">字符数据</h3>
+<h4 id="ASCII编码">ASCII编码</h4>
+<p>占用1字节，表示128个西文字符</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/COD/ascii.png" alt="ASCII字符集" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">ASCII字符集</span></div></div>
+<h4 id="UNICODE字符集">UNICODE字符集</h4>
+<p>为每种语言的每个字符设定了统一且唯一的二进制编码，兼容ASCII</p>
+<h4 id="UTF-8编码">UTF-8编码</h4>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/COD/utf8.png" alt="UTF-8编码" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">UTF-8编码</span></div></div>
+<ul>
+<li>变长字符编码，长度由首字节确定</li>
+<li>字符除首字节外均以<code>10</code>开头</li>
+</ul>
+<h4 id="字符显示">字符显示</h4>
+<ul>
+<li>点阵字体：将字符展示在GUI界面中的方式，点阵字体是其中最简单的一种，即利用黑白位图来表示</li>
+<li>矢量字体：用多条曲线来表示字符，每条曲线存储一部分关键点，显示的时候平滑连接关键点并填充</li>
+</ul>
+<h3 id="数值数据">数值数据</h3>
+<h4 id="整数">整数</h4>
+<p>第一位为符号位，后续为数值位</p>
+<ul>
+<li>正数的原=补=反</li>
+<li>0有两个原码与反码(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\pm 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">±</span><span class="mord">0</span></span></span></span>)，仅有1个补码</li>
+<li>负数：反码为<strong>数值位</strong>取反，补码为反码+1</li>
+</ul>
+<h4 id="浮点数">浮点数</h4>
+<p>浮点数组成为<code>[s, exp, frac]</code>，分别为符号位、阶码（表示方式为移码）与尾码（表示方式为原码）</p>
+<ul>
+<li><code>bias = 2^(len(exp) - 1) - 1</code></li>
+<li><code>exp != 0, exp != 11..11</code>时为规格化数，此时：
+<ul>
+<li><code>E = exp - bias</code></li>
+<li><code>M = 1.frac</code></li>
+<li><code>num = (s ? -1 : 1) * M * 2^E</code></li>
+</ul>
+</li>
+<li><code>exp == 0</code>时为非规格化数，此时：
+<ul>
+<li><code>E = 1 - bias</code></li>
+<li><code>M = 0.frac</code></li>
+<li><code>num = (s ? -1 : 1) * M * 2^E</code></li>
+</ul>
+</li>
+<li><code>exp == 11..11, frac == 0</code>时为<code>inf</code></li>
+<li>其他情况为<code>NaN</code></li>
+</ul>
+<p>浮点数加减：</p>
+<ul>
+<li>操作阶码，阶码较小的右移，阶码大的为结果的阶码</li>
+<li>尾数加减</li>
+<li>规格化处理</li>
+<li>舍入操作</li>
+<li>检查阶码是否溢出</li>
+</ul>
+<p>浮点数乘除：</p>
+<ul>
+<li>阶码直接加减</li>
+<li>尾数乘除法</li>
+<li>规格化处理</li>
+<li>舍入操作</li>
+<li>检查阶码溢出</li>
+</ul>
+<h3 id="检错纠错码">检错纠错码</h3>
+<p>码距指任意两个合法编码之间不同的二进制位数目的最小值，当码距为1的时候无检错能力</p>
+<p>常见的检错纠错码有：奇偶校验码、海明校验码与循环冗余校验码</p>
+<h4 id="奇偶校验码">奇偶校验码</h4>
+<p>在k位数据码之外增加1位校验位，使得其中取值为1的位数总保持为奇数或偶数，码距为2</p>
+<p>如偶校验：<code>1101 -&gt; 11101</code>，奇校验<code>1101 -&gt; 01101</code></p>
+<p>电路上来看是取异或即可</p>
+<h4 id="海明校验码">海明校验码</h4>
+<p>并行数据，为k位数据设定r位校验码，使其能够：</p>
+<ul>
+<li>能够发现并改正k+r中任意一位出错</li>
+<li>能够发现k+r中任意两位同时出错<br />
+码距为4</li>
+</ul>
+<p>则k与r之间应该满足的关系是：</p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>r</mi></msup><mo>≥</mo><mi>k</mi><mo>+</mo><mi>r</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^{r} \geq k + r + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8004em;vertical-align:-0.136em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>：此时即为用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>r</mi></msup></mrow><annotation encoding="application/x-tex">2^{r}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span></span></span></span></span></span></span></span></span>个编码分别表示出错的位数或都不出错</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mi>r</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>≥</mo><mi>k</mi><mo>+</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">2^{r - 1} \geq k + r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9501em;vertical-align:-0.136em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span></span></span>：用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">r - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>为校验码为出错位编码，单独设置一位用于区分是1位还是2位出错（总校验位）</li>
+</ul>
+<p>编码方案：</p>
+<ol>
+<li>将校验位依次安排在2的幂次位，将数据位依次排布在剩下的位置</li>
+<li>将数据位的编号拆分成2的幂的和，则所出现的幂对应位置上校验位负责对该数据位进行校验</li>
+<li>校验位的值即为其所校验的数据的异或</li>
+<li>总校验位的值为所有数据的异或</li>
+</ol>
+<p>译码方案：对收到的数据的数据位再次编码并比较</p>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -158,7 +337,7 @@
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/undefined/">网原笔记1</a></div><div class="item" id="next"></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/f5f15075.html">信号处理原理 3</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/317c15de.html">从平板到辅助显示器</a></div></section></div>
 
 
 
@@ -240,7 +419,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95"><span class="toc-text">配置方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95"><span class="toc-text">操作方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98"><span class="toc-text">更换主题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%B4%E8%B0%A2"><span class="toc-text">致谢</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Debug"><span class="toc-text">Debug</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F"><span class="toc-text">计算机指令系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E7%9A%84%E5%8A%9F%E8%83%BD%E4%B8%8E%E5%88%86%E7%B1%BB"><span class="toc-text">指令的功能与分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E8%A1%A8%E7%A4%BA"><span class="toc-text">指令表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%A0%81%E7%9A%84%E6%89%A9%E5%B1%95"><span class="toc-text">操作码的扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="toc-text">寻址方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Riscv-%E6%8C%87%E4%BB%A4"><span class="toc-text">Riscv 指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%95%B0%E3%80%81%E4%BD%8D%E8%BF%90%E7%AE%97%E3%80%81%E7%A7%BB%E4%BD%8D%E6%8C%87%E4%BB%A4"><span class="toc-text">算数、位运算、移位指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E5%AD%98%E6%8C%87%E4%BB%A4"><span class="toc-text">访存指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E4%B8%8E%E8%B7%B3%E8%BD%AC"><span class="toc-text">分支与跳转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E6%8C%87%E4%BB%A4"><span class="toc-text">伪指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="toc-text">函数调用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%A4%BA%E4%B8%8E%E7%BA%A0%E9%94%99"><span class="toc-text">数据表示与纠错</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E6%95%B0%E6%8D%AE"><span class="toc-text">逻辑数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E6%95%B0%E6%8D%AE"><span class="toc-text">字符数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ASCII%E7%BC%96%E7%A0%81"><span class="toc-text">ASCII编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UNICODE%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="toc-text">UNICODE字符集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UTF-8%E7%BC%96%E7%A0%81"><span class="toc-text">UTF-8编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E6%98%BE%E7%A4%BA"><span class="toc-text">字符显示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%80%BC%E6%95%B0%E6%8D%AE"><span class="toc-text">数值数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E6%95%B0"><span class="toc-text">整数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0"><span class="toc-text">浮点数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E9%94%99%E7%BA%A0%E9%94%99%E7%A0%81"><span class="toc-text">检错纠错码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A5%87%E5%81%B6%E6%A0%A1%E9%AA%8C%E7%A0%81"><span class="toc-text">奇偶校验码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%B7%E6%98%8E%E6%A0%A1%E9%AA%8C%E7%A0%81"><span class="toc-text">海明校验码</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M10.46 1.25h3.08c1.603 0 2.86 0 3.864.095c1.023.098 1.861.3 2.6.752a5.75 5.75 0 0 1 1.899 1.899c.452.738.654 1.577.752 2.6c.095 1.004.095 2.261.095 3.865v1.067c0 1.141 0 2.036-.05 2.759c-.05.735-.153 1.347-.388 1.913a5.75 5.75 0 0 1-3.112 3.112c-.805.334-1.721.408-2.977.43a10.81 10.81 0 0 0-.929.036c-.198.022-.275.054-.32.08c-.047.028-.112.078-.224.232c-.121.166-.258.396-.476.764l-.542.916c-.773 1.307-2.69 1.307-3.464 0l-.542-.916a10.605 10.605 0 0 0-.476-.764c-.112-.154-.177-.204-.224-.232c-.045-.026-.122-.058-.32-.08c-.212-.023-.49-.03-.93-.037c-1.255-.021-2.171-.095-2.976-.429A5.75 5.75 0 0 1 1.688 16.2c-.235-.566-.338-1.178-.389-1.913c-.049-.723-.049-1.618-.049-2.76v-1.066c0-1.604 0-2.86.095-3.865c.098-1.023.3-1.862.752-2.6a5.75 5.75 0 0 1 1.899-1.899c.738-.452 1.577-.654 2.6-.752C7.6 1.25 8.857 1.25 10.461 1.25M6.739 2.839c-.914.087-1.495.253-1.959.537A4.25 4.25 0 0 0 3.376 4.78c-.284.464-.45 1.045-.537 1.96c-.088.924-.089 2.11-.089 3.761v1c0 1.175 0 2.019.046 2.685c.045.659.131 1.089.278 1.441a4.25 4.25 0 0 0 2.3 2.3c.515.214 1.173.294 2.429.316h.031c.398.007.747.013 1.037.045c.311.035.616.104.909.274c.29.17.5.395.682.645c.169.232.342.525.538.856l.559.944a.52.52 0 0 0 .882 0l.559-.944c.196-.331.37-.624.538-.856c.182-.25.392-.476.682-.645c.293-.17.598-.24.909-.274c.29-.032.639-.038 1.037-.045h.032c1.255-.022 1.913-.102 2.428-.316a4.25 4.25 0 0 0 2.3-2.3c.147-.352.233-.782.278-1.441c.046-.666.046-1.51.046-2.685v-1c0-1.651 0-2.837-.089-3.762c-.087-.914-.253-1.495-.537-1.959a4.25 4.25 0 0 0-1.403-1.403c-.464-.284-1.045-.45-1.96-.537c-.924-.088-2.11-.089-3.761-.089h-3c-1.651 0-2.837 0-3.762.089" clip-rule="evenodd"/><path fill="currentColor" d="M9 11a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><span>参与讨论</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
