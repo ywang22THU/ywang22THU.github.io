@@ -28,7 +28,7 @@
 <meta property="og:description" content="用 QEMU 踩的一些坑">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-10-15T07:33:32.000Z">
-<meta property="article:modified_time" content="2025-10-15T14:21:13.853Z">
+<meta property="article:modified_time" content="2025-10-16T06:23:18.807Z">
 <meta property="article:author" content="ywang">
 <meta property="article:tag" content="配置">
 <meta property="article:tag" content="qemu">
@@ -72,7 +72,7 @@
 <br></br>
 </div></widget>
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/7d9a465e.html"><span class="title">qemu 使用记录</span></a><a class="item title" href="/posts/514bd835.html"><span class="title">大学物理 静电场中的导体</span></a><a class="item title" href="/posts/cf2f4d96.html"><span class="title">大学物理4</span></a><a class="item title" href="/posts/52bfecf3.html"><span class="title">大学物理 总结</span></a><a class="item title" href="/posts/42128f3.html"><span class="title">博客主题配置</span></a><a class="item title" href="/posts/21e24ee5.html"><span class="title">TCS-Lecture-C</span></a><a class="item title" href="/posts/c6ee6588.html"><span class="title">Hexo + Stellar</span></a><a class="item title" href="/posts/50ebb90d.html"><span class="title">DiT</span></a><a class="item title" href="/posts/d15f190d.html"><span class="title">传输层与应用层安全协议</span></a><a class="item title" href="/posts/82f660e3.html"><span class="title">信号处理原理 2</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/cf2f4d96.html"><span class="title">大学物理 静电场中的电介质</span></a><a class="item title" href="/posts/7d9a465e.html"><span class="title">qemu 使用记录</span></a><a class="item title" href="/posts/514bd835.html"><span class="title">大学物理 静电场中的导体</span></a><a class="item title" href="/posts/52bfecf3.html"><span class="title">大学物理 总结</span></a><a class="item title" href="/posts/42128f3.html"><span class="title">博客主题配置</span></a><a class="item title" href="/posts/21e24ee5.html"><span class="title">TCS-Lecture-C</span></a><a class="item title" href="/posts/c6ee6588.html"><span class="title">Hexo + Stellar</span></a><a class="item title" href="/posts/50ebb90d.html"><span class="title">DiT</span></a><a class="item title" href="/posts/d15f190d.html"><span class="title">传输层与应用层安全协议</span></a><a class="item title" href="/posts/82f660e3.html"><span class="title">信号处理原理 2</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -85,7 +85,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%A7%91%E7%A0%94/">科研</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-10-15T07:33:32.000Z">2025-10-15</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-10-15T14:21:13.853Z">2025-10-15</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：1.2k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：5分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/qemu/">qemu</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E9%85%8D%E7%BD%AE/">配置</a>&nbsp</div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-10-15T07:33:32.000Z">2025-10-15</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-10-16T06:23:18.807Z">2025-10-16</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：1.3k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：5分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/qemu/">qemu</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E9%85%8D%E7%BD%AE/">配置</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
@@ -133,9 +133,10 @@
 <p>在配好之后，可以尝试一下互 ping 与 ssh，如果都可以的话，就可以通过 <code>sudo poweroff</code> 关闭虚拟机了</p>
 <h3 id="后台启动">后台启动</h3>
 <p>后台启动命令是：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo qemu-system-x86_64 -m 4096 -smp 4 -hda http-server.qcow2 -enable-kvm -cpu host -nographic -netdev bridge,br=httpbr,<span class="built_in">id</span>=n2 -monitor none -serial none &amp;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo qemu-system-x86_64 -m 4096 -smp 4 -hda http-server.qcow2 -enable-kvm -cpu host -nographic -netdev bridge,br=httpbr,<span class="built_in">id</span>=n2 -device virtio-net,netdev=n2,mac=52:54:00:12:34:58 -monitor none -serial none &amp;</span><br></pre></td></tr></table></figure>
 <p>但是 <code>-nographic -monitor none -serial none</code> 似乎不一定能够保证 qemu 完全不监听 stdin，所以有的时候放在后台跑的时候会被挂起，这种时候可以重定向一下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo qemu-system-x86_64 -m 4096 -smp 4 -hda http-server.qcow2 -enable-kvm -cpu host -nographic -netdev bridge,br=httpbr,<span class="built_in">id</span>=n2 -monitor none -serial none &lt; /dev/null &amp;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo qemu-system-x86_64 -m 4096 -smp 4 -hda http-server.qcow2 -enable-kvm -cpu host -nographic -netdev bridge,br=httpbr,<span class="built_in">id</span>=n2 -device virtio-net,netdev=n2,mac=52:54:00:12:34:58 -monitor none -serial none &lt; /dev/null &amp;</span><br></pre></td></tr></table></figure>
+<p>当我们启动之后，可以使用 <code>jobs</code> 命令来查看命令状态，正常情况下应该是 <code>Running</code>，并且可以 <code>ping 192.168.10.2</code> 查看，如果发现进程状态是 <code>Stopped</code>，可以注意一下是不是还是有某些操作需要读取 <code>stdin</code>，例如可能是 <code>sudo</code> 需要用户输入密码</p>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -145,7 +146,7 @@
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/cf2f4d96.html">大学物理4</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/cf2f4d96.html">大学物理 静电场中的电介质</a></div></section></div>
 
 
 
@@ -221,7 +222,7 @@
   });
 </script>
 </center>
-<center> <span class="totalcount">共发表 67 篇 Blog(s) · </span><span class="post-count">总计 150.3k 字</span></center><br/></div></footer>
+<center> <span class="totalcount">共发表 67 篇 Blog(s) · </span><span class="post-count">总计 150.5k 字</span></center><br/></div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
 <div class="widgets">
 
