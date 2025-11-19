@@ -28,7 +28,7 @@
 <meta property="og:description" content="集群开发过程中遇到的一些问题的记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-11-02T06:13:56.000Z">
-<meta property="article:modified_time" content="2025-11-19T04:09:26.601Z">
+<meta property="article:modified_time" content="2025-11-19T04:28:04.411Z">
 <meta property="article:author" content="ywang">
 <meta property="article:tag" content="Slurm">
 <meta property="article:tag" content="DeepSpeed">
@@ -86,7 +86,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%A4%A7%E4%B8%89%E8%AF%BE%E9%A2%98%E7%BB%84/">大三课题组</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-11-02T06:13:56.000Z">2024-11-02</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-11-19T04:09:26.601Z">2025-11-19</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：1.1k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：4分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/CUDA/">CUDA</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/DeepSpeed/">DeepSpeed</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/Slurm/">Slurm</a>&nbsp</div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-11-02T06:13:56.000Z">2024-11-02</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-11-19T04:28:04.411Z">2025-11-19</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：1.1k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：4分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/CUDA/">CUDA</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/DeepSpeed/">DeepSpeed</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/Slurm/">Slurm</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
@@ -103,7 +103,7 @@
 <div class="tag-plugin colorful note" ><div class="body"><p>注：集群是aarch64架构</p></div></div>
 <h2 id="复现WebRL">复现WebRL</h2>
 <p>WebRL是一个基于现有模型，为其添加一个RL来实现更好效果的WebAgent，我的工作是复现这篇文章，由于这个仓库并没有在github上开源，因此缺少了很多community的帮助，并且其README写的非常高屋建瓴，如果直接跟随的话会报大错，经过了大概7h的研究，现在能够在这个集群上初始化了</p>
-<p>在写这些文字的时候，llama模型的权限还没申请到，因此还不能确保开始train之后没问题</p>
+<p>在写这些文字的时候，llama模型的权限还没申请到，因此还不能确保开始train之后没问题<psw>鸣鸣鸣别骂我</psw></p>
 <p>Update：数据集没开源🤡</p>
 <h3 id="服务器登录">服务器登录</h3>
 <p>用ssh即可，登录没什么要说的，不过<strong>服务器是有权限ban掉免密登录操作的</strong>，建议在遇到一直无法免密的时候先询问一下负责人</p>
@@ -175,8 +175,8 @@
 <footer class="page-footer footnote"><hr><div class="text"><center>
 <span>
 © 2024
-本网站由 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/FelicxFoster">Ywang22</a>
-使用 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/FelicxFoster/hexo-theme-stellar">Stellar</a>
+本网站由 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/ywang22THU">Ywang22</a>
+使用 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a>主题
 创建
 </span>
 <br>

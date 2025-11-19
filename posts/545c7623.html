@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://ywang22thu.github.io/assets/COD/ascii.png">
 <meta property="og:image" content="https://ywang22thu.github.io/assets/COD/utf8.png">
 <meta property="article:published_time" content="2024-10-07T06:41:04.000Z">
-<meta property="article:modified_time" content="2025-11-19T04:09:36.609Z">
+<meta property="article:modified_time" content="2025-11-19T04:28:06.700Z">
 <meta property="article:author" content="ywang">
 <meta property="article:tag" content="笔记">
 <meta property="article:tag" content="计组">
@@ -93,7 +93,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-10-07T06:41:04.000Z">2024-10-07</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-11-19T04:09:36.609Z">2025-11-19</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：2k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：7分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/ALU/">ALU</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/">指令系统</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%A4%BA/">数据表示</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E8%AE%A1%E7%BB%84/">计组</a>&nbsp</div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-10-07T06:41:04.000Z">2024-10-07</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-11-19T04:28:06.700Z">2025-11-19</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：2k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：7分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/ALU/">ALU</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/">指令系统</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%A4%BA/">数据表示</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E8%AE%A1%E7%BB%84/">计组</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
@@ -170,7 +170,7 @@
 <h3 id="寄存器">寄存器</h3>
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/COD/riscvreg.png" alt="RISCV中的寄存器" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">RISCV中的寄存器</span></div></div>
 <h3 id="算数、位运算、移位指令">算数、位运算、移位指令</h3>
-<p>用后缀指明操作数的类型，无<code>u</code>代表有符号数，有<code>u</code>代表无符号数，<code>i</code>代表第二个操作数是立即数（没有<code>subi</code>）</p>
+<p>用后缀指明操作数的类型，无<code>u</code>代表有符号数，有<code>u</code>代表无符号数，<code>i</code>代表第二个操作数是立即数<psw>没有`subi`</psw></p>
 <ul>
 <li><code>op dst, src1, src2</code>: R型</li>
 <li><code>opi dst, src, imm</code>: I型</li>
@@ -362,8 +362,8 @@
 <footer class="page-footer footnote"><hr><div class="text"><center>
 <span>
 © 2024
-本网站由 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/FelicxFoster">Ywang22</a>
-使用 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/FelicxFoster/hexo-theme-stellar">Stellar</a>
+本网站由 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/ywang22THU">Ywang22</a>
+使用 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a>主题
 创建
 </span>
 <br>
