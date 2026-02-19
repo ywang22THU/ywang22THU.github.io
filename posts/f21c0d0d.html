@@ -28,7 +28,7 @@
 <meta property="og:description" content="linux 源码学习 - 内存管理">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-02-11T09:22:42.000Z">
-<meta property="article:modified_time" content="2026-02-19T14:39:43.989Z">
+<meta property="article:modified_time" content="2026-02-19T14:40:35.161Z">
 <meta property="article:author" content="ywang">
 <meta property="article:tag" content="内核">
 <meta property="article:tag" content="内存管理">
@@ -85,7 +85,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/linux/">linux</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-02-11T09:22:42.000Z">2026-02-11</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-02-19T14:39:43.989Z">2026-02-19</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：3.7k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：15分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">内存管理</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E5%86%85%E6%A0%B8/">内核</a>&nbsp</div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-02-11T09:22:42.000Z">2026-02-11</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-02-19T14:40:35.161Z">2026-02-19</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：3.7k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：15分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">内存管理</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E5%86%85%E6%A0%B8/">内核</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
@@ -143,7 +143,7 @@
 <li>触发缺页异常时，错误码和触发异常的线性地址压栈，并跳转到内核入口 <code>exc_page_fault</code></li>
 <li>调用 <code>mm/fault.c</code> 中的 <code>handle_page_fault()</code>，进而调用 <code>do_user_addr_fault()</code></li>
 <li>调用 <code>mm/memory.c</code> 中的 <code>handle_mm_fault()</code>，其中会调用 static 函数 <code>__handle_mm_fault()</code>，落到 <code>handle_pte_fault()</code>，这个函数中当发现虚拟地址不存在页表项的时候，会调用 <code>do_pte_missing()</code>，对于堆内存（属于匿名内存），会进一步调用 <code>do_anonymous_page()</code>，当没有错误发生的时候，会进入 <code>alloc_anon_folio()</code>，最终会进入 <code>folio_prealloc()</code></li>
-<li>调用 <code>include/linux/gfp.h</code> 中的 <code>vma_alloc_folio()</code>，此时会经过一系列映射与转换：<code>vma_alloc_folio() -&gt; vma_alloc_folio() -&gt; folio_alloc_noprof() -&gt; __folio_alloc_node_noprof()</code></li>
+<li>调用 <code>include/linux/gfp.h</code> 中的 <code>vma_alloc_folio()</code>，此时会经过一系列映射与转换：<code>vma_alloc_folio() -&gt; vma_alloc_folio_noprof() -&gt; folio_alloc_noprof() -&gt; __folio_alloc_node_noprof()</code></li>
 <li>调用 <code>mm/memory.c</code> 中的 <code>__folio_alloc_noprof()</code>，然后进入 <code>__alloc_pages_noprof()</code>，最终到达 <code>__alloc_frozen_pages_noprof()</code>，这里是伙伴系统分配器的最终实现！</li>
 </ol>
 <p>至于缺页异常的时候为什么会跳转到 <code>exc_page_fault</code>，这涉及到了更底层的硬件处理 <psw>所以再埋个坑</psw></p>
