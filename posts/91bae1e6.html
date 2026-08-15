@@ -17,30 +17,25 @@
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f9fafb">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   
-  <title>DiT - Ywang22 的博客</title>
+  <title>mac 存储机制 - Ywang22 的博客</title>
 
   
-    <meta name="description" content="Diffusion Transformer相关">
+    <meta name="description" content="记录一下 macOS 如何利用 APFS Volume Group, Signed System Volume 和 firmlink 组织出最终看到的文件系统">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DiT">
-<meta property="og:url" content="https://ywang22thu.github.io/posts/50ebb90d.html">
+<meta property="og:title" content="mac 存储机制">
+<meta property="og:url" content="https://ywang22thu.github.io/posts/91bae1e6.html">
 <meta property="og:site_name" content="Ywang22 的博客">
-<meta property="og:description" content="Diffusion Transformer相关">
+<meta property="og:description" content="记录一下 macOS 如何利用 APFS Volume Group, Signed System Volume 和 firmlink 组织出最终看到的文件系统">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ywang22thu.github.io/assets/sea/ldm.png">
-<meta property="og:image" content="https://ywang22thu.github.io/assets/sea/dit.png">
-<meta property="og:image" content="https://ywang22thu.github.io/assets/sea/patch.png">
-<meta property="article:published_time" content="2024-10-20T07:01:05.000Z">
-<meta property="article:modified_time" content="2025-09-27T15:33:10.000Z">
+<meta property="article:published_time" content="2026-08-15T07:07:21.000Z">
+<meta property="article:modified_time" content="2026-08-15T13:33:48.647Z">
 <meta property="article:author" content="ywang">
-<meta property="article:tag" content="Diffusion">
-<meta property="article:tag" content="Transformer">
+<meta property="article:tag" content="配置">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ywang22thu.github.io/assets/sea/ldm.png">
   
   
   
-  <meta name="keywords" content="Diffusion,Transformer">
+  <meta name="keywords" content="配置">
 
   <!-- feed -->
   
@@ -88,44 +83,286 @@
 <div class="article banner top">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%A4%A7%E4%B8%89%E8%AF%BE%E9%A2%98%E7%BB%84/">大三课题组</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-10-20T07:01:05.000Z">2024-10-20</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-09-27T15:33:10.000Z">2025-09-27</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：494字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：1分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/Diffusion/">Diffusion</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/Transformer/">Transformer</a>&nbsp</div></div></div>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E9%97%B2%E7%9A%84/">闲的</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-08-15T07:07:21.000Z">2026-08-15</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-08-15T13:33:48.647Z">2026-08-15</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：4.5k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：17分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/%E9%85%8D%E7%BD%AE/">配置</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>DiT</span></h1>
+        <h1 class="text title"><span>mac 存储机制</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><p>Diffusion Transformer相关</p>
+  </div><article class="md-text content"><p>记录一下 macOS 如何利用 APFS Volume Group, Signed System Volume 和 firmlink 组织出最终看到的文件系统</p>
 <span id="more"></span>
-<h2 id="LDM简介">LDM简介</h2>
-<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/sea/ldm.png" alt="LDM架构" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">LDM架构</span></div></div>
-<p>架构如上，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">ε</mi></mrow><annotation encoding="application/x-tex">\mathcal{\varepsilon}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ε</span></span></span></span>代表编码器，负责将像素空间的输入映射到潜在空间，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">D</mi></mrow><annotation encoding="application/x-tex">\mathcal{D}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span></span></span>代表解码器，负责将潜在空间的输出映射到像素空间，中间利用U-Net进行去噪，同时<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mi>θ</mi></msub></mrow><annotation encoding="application/x-tex">\tau_\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1132em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">θ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>是Condition编码后的参数，通过CrossAttention与潜在变量结合起来</p>
-<h2 id="DiT">DiT</h2>
-<p>基于LDM的一个模型，将其中原本用于Denoise的U-Net修改为Transfomer架构，称为DiT Block，而VAE则是由已有的部分：</p>
-<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/sea/dit.png" alt="DiT Block" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">DiT Block</span></div></div>
-<h2 id="Patchify">Patchify</h2>
-<p>对输入的latent noise做扁平化：</p>
-<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/sea/patch.png" data-fancybox="true"/></div></div>
-<p>将图像切分成多个大小为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>×</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">p\times  p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span> 的补丁，然后将其转换为长度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span> 的序列作为 Transformer 的输入。这使得 DiT 能够处理不同分辨率、持续时间和长宽比的视频和图像。</p>
-<p>其中<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span>的大小会影响GFLOP，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span>减半GFLOP乘4，但是对下游参数数量没有影响。</p>
-<h2 id="DiT-Block">DiT Block</h2>
-<p>按照对条件信息的处理方式分为三种：</p>
-<h3 id="In-Context-Conditioning">In-Context Conditioning</h3>
-<p>直接把Condition和Image拼接在一起，最终一次迭代不拼接，对GFLOP影响很小</p>
-<h3 id="Cross-Attention">Cross Attention</h3>
-<p>Image做一次Self-Attention之后，再和Condition做一次Cross Attention，会提升15%左右的GFLOP，这个和LDM中使用的方法是很相似的</p>
-<h3 id="Adaptive-Layer-Norm-adaLN">Adaptive Layer Norm(adaLN)</h3>
-<p>传统的LayerNorm，在做完归一化之后的线性映射参数是直接训练得到，与输入无关，和adaLN中线性映射的采纳数是输入经过一次MLP部分得到</p>
-<p>用Adaptive Layer Norm替换Transfomer中的Layer Norm部分，并且这其中的参数与Image无关得到，而通过Condition经过MLP之后得到，对GFLOP影响最小</p>
-<h3 id="adaLN-Zero">adaLN-Zero</h3>
-<p>先把<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>输出都初始化为0，这样每一个残差块的初始输出都为恒等映射，训练成本更低</p>
-<h2 id="Decoder">Decoder</h2>
-<p>用一个线性decoder来做解码，输出一个噪声预测与一个对角协方差预测</p>
+<p>从目录树来看, macOS 与其他 Unix 系统一样, 所有路径都从 <code>/</code> 开始; 但目录树中的上下级关系只描述如何找到一个文件, 并不保证这些文件真的存储在同一个文件系统中</p>
+<p>macOS 中的 <code>/</code> 并不对应一个完整的可写根分区, 而是由 APFS 中的一组卷共同组成的统一命名空间; <code>/System</code> 等系统目录来自只读卷, <code>/Applications</code> 和 <code>/Users</code> 等可写目录则来自另一个数据卷, 其中最关键的连接机制就是 <strong>APFS Volume Group + firmlink</strong></p>
+<h2 id="从磁盘到-APFS-Volume">从磁盘到 APFS Volume</h2>
+<p>从物理结构来看, macOS 的启动磁盘可以抽象为下面几层:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">物理磁盘</span><br><span class="line">└── GPT 分区</span><br><span class="line">    └── APFS Container</span><br><span class="line">        ├── System Volume</span><br><span class="line">        ├── Data Volume</span><br><span class="line">        ├── Preboot Volume</span><br><span class="line">        ├── Recovery Volume</span><br><span class="line">        ├── VM Volume</span><br><span class="line">        └── Update Volume</span><br></pre></td></tr></table></figure>
+<p>GPT 负责描述物理磁盘上的分区边界, 其中的 APFS 分区对应一个 Container; Container 是 APFS 管理空间的基本池, 内部可以继续创建多个 Volume, 每个 Volume 都拥有独立的目录树, 元数据和挂载状态</p>
+<p>Volume 与传统固定大小的分区不同, 同一个 Container 内的卷共享空闲空间, 不需要在创建时确定一个不可改变的容量边界; 每个卷也可以设置 quota 和 reserve, 前者限制卷最多能够使用的空间, 后者保证卷至少能够获得的空间</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diskutil apfs list</span><br></pre></td></tr></table></figure>
+<p>这个命令会按照 Physical Store -&gt; Container -&gt; Volume 的层次列出磁盘结构, 还会显示每个 Volume 的 Role, UUID, Capacity Consumed 与挂载点; Role 并不是卷名, 而是 macOS 用来区分 System, Data, Preboot 等用途的元数据</p>
+<p>因此, System, Data, Preboot 等卷虽然是彼此独立的文件系统, 但它们使用的是同一个 Container 空间池; 某个卷新写入数据时会从共享池中分配块, 删除数据后又将块归还给共享池, 对这些卷执行 <code>df</code> 时也往往会看到相同的总容量和可用容量</p>
+<h3 id="CoW-clone-与-snapshot">CoW, clone 与 snapshot</h3>
+<p>APFS 采用 Copy-on-Write, 简称 CoW; 修改已有数据或文件系统元数据时, APFS 不会直接覆盖当前使用的块, 而是先在新位置写入修改后的内容, 再切换元数据指向, 因此提交前的旧状态不会被半次写入破坏</p>
+<p>CoW 也是 clone 和 snapshot 的基础:</p>
+<ul>
+<li>clone 让两个文件或目录先共享已有数据块, 只有后续发生修改的部分才需要复制</li>
+<li>snapshot 保存某个 Volume 在特定时刻的文件系统状态, 创建时不需要复制卷中的全部数据</li>
+</ul>
+<p>当 snapshot 建立之后, 当前文件系统仍然可以继续修改; 如果旧数据块仍被 snapshot 引用, APFS 就会保留它, 新版本则写到其他块中, 所以 snapshot 的空间占用会随着后续差异逐渐增加</p>
+<h3 id="各个-APFS-卷的作用">各个 APFS 卷的作用</h3>
+<ul>
+<li>System Volume: 保存启动 macOS 所需的系统文件和 Apple 自带内容</li>
+<li>Data Volume: 保存用户文件, 第三方应用以及所有需要在运行期间修改的数据</li>
+<li>Preboot Volume: 保存引导每个 System Volume 所需的启动数据</li>
+<li>Recovery Volume: 保存 recoveryOS, 在系统卷不可用时仍然能够进入恢复环境</li>
+<li>VM Volume: 保存 swap 等虚拟内存数据</li>
+<li>Update Volume: 在系统更新过程中保存临时状态和待安装内容</li>
+</ul>
+<p>其中 System 和 Data 并不是两个互不相关的普通卷, 它们通过 APFS Volume Group 组合成一套 macOS 系统; 一个 System Volume 会有一个对应的 Data Volume, 二者通过 Volume Group UUID 建立关系, 而 Preboot, Recovery 和 VM 等辅助卷可以由同一 Container 中的系统共享</p>
+<p>可以使用下面的命令查看卷组关系:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diskutil apfs listVolumeGroups</span><br></pre></td></tr></table></figure>
+<p>一次正常启动大致会经历下面的文件系统组装过程:</p>
+<ol>
+<li>启动程序从 Preboot Volume 中找到所选 System Volume 对应的启动数据</li>
+<li>启动链验证 System Volume snapshot 的 seal</li>
+<li>通过验证的 snapshot 以只读方式挂载到 <code>/</code></li>
+<li>系统根据 Volume Group 关系找到配对的 Data Volume, 并挂载到 <code>/System/Volumes/Data</code></li>
+<li>APFS 根据 firmlink 映射把 Data 中的可写目录接入根目录树</li>
+<li>devfs, VM Volume, 外置磁盘等其他文件系统再挂载到各自的位置</li>
+</ol>
+<p>所以用户最终看到的 <code>/</code> 是启动过程组装出的全局命名空间, 而不是磁盘上某一个卷的原始目录树</p>
+<h2 id="System-Volume-与-Data-Volume">System Volume 与 Data Volume</h2>
+<p>macOS Catalina 开始将启动盘拆分为 System 和 Data 两个卷, 目的是将不会变化的操作系统内容与需要写入的数据隔离开</p>
+<h3 id="System-Volume">System Volume</h3>
+<p>System Volume 中主要包含:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/System</span><br><span class="line">/bin</span><br><span class="line">/sbin</span><br><span class="line">/usr</span><br></pre></td></tr></table></figure>
+<p>这里的 <code>/usr</code> 也有少数例外, 例如 <code>/usr/local</code> 位于 Data Volume, 后面会介绍这种局部跨卷的路径是如何实现的</p>
+<p>从 macOS Big Sur 开始, System Volume 又成为 Signed System Volume, 简称 SSV; 系统会为每一部分文件内容和文件系统元数据计算哈希, 上层节点继续对下层节点的哈希进行计算, 最终形成类似 Merkle Tree 的结构, 根节点的哈希就是代表整个系统状态的 seal</p>
+<p>Apple 对预期的 seal 进行签名, 启动链则在挂载根文件系统之前验证签名和 seal; 如果底层任意系统文件发生未授权修改, 对应哈希就会改变, 验证过程也无法得到相同的根 seal</p>
+<p>正常启动时挂载到 <code>/</code> 的也不是可变的 System Volume 本体, 而是它的一个只读 APFS snapshot:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/dev/disk... on / (apfs, sealed, local, read-only, ...)</span><br></pre></td></tr></table></figure>
+<p>这带来了两个效果:</p>
+<ul>
+<li>运行中的系统文件拥有确定且可验证的状态</li>
+<li>系统更新可以准备新的系统状态和 snapshot, 再在启动时切换到新 snapshot; 如果更新失败, 仍然可以回到之前的状态</li>
+</ul>
+<p>snapshot 在这里既是可验证的启动状态, 也是系统更新的切换单位; 更新程序可以在后台准备新的 System 内容, 重新计算 seal 并生成新的 snapshot, 重启时再选择新 snapshot 启动</p>
+<p>所以 root 用户无法直接修改 <code>/System</code> 并不只是 Unix 权限导致的, 更根本的原因是当前根文件系统本身就是经过验证的只读 snapshot; SIP 与文件权限仍然提供其他层面的保护, 但它们和 SSV 不是同一个机制</p>
+<h3 id="Data-Volume">Data Volume</h3>
+<p>Data Volume 保存会变化的内容, 在启动后实际挂载到:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/System/Volumes/Data</span><br></pre></td></tr></table></figure>
+<p>这个挂载点通常带有 <code>nobrowse</code> 属性, Finder 不会把它当成一个需要用户直接进入的普通卷; 它更像是系统暴露出来的底层入口, 日常程序仍然应该使用 <code>/Users</code>, <code>/Applications</code> 等稳定路径</p>
+<p>直接查看这个目录可以看到类似下面的结构:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/System/Volumes/Data</span><br><span class="line">├── Applications</span><br><span class="line">├── Library</span><br><span class="line">├── Users</span><br><span class="line">├── Volumes</span><br><span class="line">├── opt</span><br><span class="line">├── private</span><br><span class="line">└── usr</span><br><span class="line">    └── local</span><br></pre></td></tr></table></figure>
+<p>然而平时并不会使用 <code>/System/Volumes/Data/Users</code> 访问用户目录, 而是仍然使用熟悉的 <code>/Users</code>; 这两个路径看起来处于根目录的不同位置, 实际却指向 Data Volume 中的同一个目录, 将它们拼接起来的就是 firmlink</p>
+<p>可以用 <code>df</code> 直观观察路径最后落在哪个 Volume:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">df</span> -h /System /Users /Applications</span><br></pre></td></tr></table></figure>
+<p><code>/System</code> 会落在只读 System snapshot 对应的设备上, <code>/Users</code> 和 <code>/Applications</code> 则会落在 Data Volume 对应的设备上</p>
+<h2 id="firmlink">firmlink</h2>
+<p>firmlink 可以理解为 macOS 为 System Volume 和 Data Volume 设计的跨卷目录映射, 它由 APFS 和内核的路径解析逻辑处理, 将只读 System 命名空间中的某个目录无缝接到可写 Data Volume</p>
+<p>启动时, 系统已经知道 System 与 Data 属于同一个 Volume Group, 因此 firmlink 只需要记录两边目录的对应关系; 当路径解析到 firmlink 边界时, 内核会在配对 Data Volume 中继续查找余下的路径分量, 程序本身不需要知道切换发生过</p>
+<p>例如下面这两个路径访问的是同一个目录:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/Applications</span><br><span class="line">/System/Volumes/Data/Applications</span><br></pre></td></tr></table></figure>
+<p>但 <code>/Applications</code> 在外观上仍然是普通目录:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -ld /Applications</span><br><span class="line"><span class="comment"># drwxrwxr-x ... /Applications</span></span><br></pre></td></tr></table></figure>
+<p>它不会像符号链接一样显示 <code>-&gt;</code> 和目标路径, 也没有一段可供应用读取的目标路径字符串; 程序进入 <code>/Applications</code> 后再访问 <code>..</code>, 得到的仍然是 <code>/</code>, 而不是暴露实现细节的 <code>/System/Volumes/Data</code></p>
+<p>也就是说, firmlink 不是简单地进行字符串路径替换, 而是在 VFS 和 APFS 处理目录遍历时切换到卷组中对应的 Data 目录, 同时维持统一的根目录语义; 从普通应用的角度来看, System 和 Data 仍然是一棵连续的目录树</p>
+<h3 id="firmlink-映射表">firmlink 映射表</h3>
+<p>系统使用的主要映射记录在:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/firmlinks</span><br></pre></td></tr></table></figure>
+<p>可以直接查看其中的内容:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /usr/share/firmlinks</span><br></pre></td></tr></table></figure>
+<p>其中比较重要的条目类似于:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/Applications        Applications</span><br><span class="line">/Library             Library</span><br><span class="line">/Users               Users</span><br><span class="line">/Volumes             Volumes</span><br><span class="line">/opt                 opt</span><br><span class="line">/private             private</span><br><span class="line">/usr/local           usr/local</span><br></pre></td></tr></table></figure>
+<p>左侧是统一根目录中呈现给程序的路径, 右侧是相对于 Data Volume 根目录的路径, 所以 <code>/usr/local</code> 最终对应的是 <code>/System/Volumes/Data/usr/local</code></p>
+<p>映射不只能够出现在根目录的第一层, 实际清单中还存在 <code>/System/Library/Caches</code>, <code>/usr/libexec/cups</code> 等更深的路径; 这意味着一个只读目录的部分子树也可以切换到 Data Volume, 而不需要把整个父目录都变成可写</p>
+<p>还可以用 <code>stat</code> 观察映射前后的目录:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stat</span> -f <span class="string">&#x27;%N inode=%i&#x27;</span> \</span><br><span class="line">  /Applications \</span><br><span class="line">  /System/Volumes/Data/Applications</span><br></pre></td></tr></table></figure>
+<p>在当前系统中, 两个路径会得到相同的 inode, 说明它们不是两份同步的数据, 而是同一个目录的两种入口</p>
+<p>如果在 <code>/Applications</code> 中创建文件, 数据会直接写入 Data Volume 的 <code>Applications</code> 目录; firmlink 不负责复制和同步文件, 因为映射前后本来就是同一份目录内容</p>
+<div class="tag-plugin colorful note" color="warning"><div class="body"><p><code>/usr/share/firmlinks</code> 是系统卷中的实现清单, 只适合观察, 不应该修改; firmlink 也不是提供给用户自由创建跨卷链接的通用接口</p></div></div>
+<h3 id="firmlink-与其他链接机制">firmlink 与其他链接机制</h3>
+<p>firmlink, symbolic link 和 mount 都能让一个路径跳转到另一处, 但三者所在的层次不同:</p>
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>表现</th>
+<th>是否可跨文件系统</th>
+<th>主要用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbolic link</td>
+<td>一个保存目标路径的特殊文件, <code>ls -l</code> 会显示 <code>-&gt;</code></td>
+<td>可以</td>
+<td>普通文件和目录的路径引用</td>
+</tr>
+<tr>
+<td>hard link</td>
+<td>多个目录项引用同一个 inode</td>
+<td>通常不可以</td>
+<td>在同一文件系统中为文件增加名称</td>
+</tr>
+<tr>
+<td>mount</td>
+<td>将整个文件系统挂载到一个目录</td>
+<td>可以</td>
+<td>将磁盘卷或虚拟文件系统接入全局命名空间</td>
+</tr>
+<tr>
+<td>firmlink</td>
+<td>由内核透明连接 Volume Group 中的目录</td>
+<td>针对配对的 System 和 Data 卷</td>
+<td>把可写目录嵌入只读根目录</td>
+</tr>
+</tbody>
+</table>
+<p>firmlink 本身不会作为一个独立文件系统出现在 <code>mount</code> 输出中; 真正的 mount 是 Data Volume 到 <code>/System/Volumes/Data</code>, 在此基础上, firmlink 再负责各个具体目录的路径解析</p>
+<p>hard link 依赖 inode, 无法承担跨 Volume 的目录拼接; symbolic link 虽然可以跨文件系统, 但会暴露目标路径并改变 <code>..</code> 等路径语义; 普通 mount 的管理单位则是文件系统或卷, 如果为每个可写目录分别建立挂载点, 也无法表达 System 与 Data 之间统一的卷组关系, 因此这些现有机制都不能完全满足拆分后的透明性要求</p>
+<psw>所以它不是更硬的 hard link, 而是苹果为了拆根目录专门加的一层魔法</psw>
+<h2 id="根目录是如何组成的">根目录是如何组成的</h2>
+<p>有了前面的结构之后, macOS 根目录中的常见路径可以分为四类</p>
+<h3 id="System-Volume-提供的路径">System Volume 提供的路径</h3>
+<table>
+<thead>
+<tr>
+<th>路径</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/System</code></td>
+<td>Apple 的系统框架, 服务和资源, <code>/System/Applications</code> 中保存系统自带应用</td>
+</tr>
+<tr>
+<td><code>/bin</code></td>
+<td>启动和基本环境所需的用户命令</td>
+</tr>
+<tr>
+<td><code>/sbin</code></td>
+<td>系统管理命令</td>
+</tr>
+<tr>
+<td><code>/usr/bin</code></td>
+<td>macOS 提供的常用命令和开发工具入口</td>
+</tr>
+<tr>
+<td><code>/usr/lib</code></td>
+<td>系统库和运行时内容</td>
+</tr>
+<tr>
+<td><code>/usr/share</code></td>
+<td>架构无关的系统资源, 也包含 firmlink 映射表</td>
+</tr>
+</tbody>
+</table>
+<p>这些路径来自只读 SSV snapshot, 系统更新时整体替换, 不应该作为用户软件的安装位置</p>
+<p><code>/System</code> 保存 Apple 管理的高层系统内容, 而 <code>/bin</code>, <code>/sbin</code> 和 <code>/usr</code> 延续了 Unix/BSD 的传统层次; 它们虽然在根目录下分成多个入口, 但当前 macOS 中都属于同一个 System snapshot</p>
+<h3 id="通过-firmlink-来自-Data-Volume-的路径">通过 firmlink 来自 Data Volume 的路径</h3>
+<table>
+<thead>
+<tr>
+<th>对外路径</th>
+<th>Data Volume 中的实际路径</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/Applications</code></td>
+<td><code>/System/Volumes/Data/Applications</code></td>
+<td>用户安装和第三方应用</td>
+</tr>
+<tr>
+<td><code>/Library</code></td>
+<td><code>/System/Volumes/Data/Library</code></td>
+<td>整台机器共享的可变配置, Application Support 和第三方组件</td>
+</tr>
+<tr>
+<td><code>/Users</code></td>
+<td><code>/System/Volumes/Data/Users</code></td>
+<td>本地用户的 home 目录</td>
+</tr>
+<tr>
+<td><code>/private</code></td>
+<td><code>/System/Volumes/Data/private</code></td>
+<td>配置, 日志, 临时文件和运行状态</td>
+</tr>
+<tr>
+<td><code>/opt</code></td>
+<td><code>/System/Volumes/Data/opt</code></td>
+<td>可选的第三方软件, Apple Silicon 上的 Homebrew 通常使用 <code>/opt/homebrew</code></td>
+</tr>
+<tr>
+<td><code>/usr/local</code></td>
+<td><code>/System/Volumes/Data/usr/local</code></td>
+<td>本地管理员安装的软件, Intel Mac 上的 Homebrew 通常使用这里</td>
+</tr>
+<tr>
+<td><code>/Volumes</code></td>
+<td><code>/System/Volumes/Data/Volumes</code></td>
+<td>其他文件系统的默认挂载点</td>
+</tr>
+</tbody>
+</table>
+<p>这里最容易混淆的是三个 Library:</p>
+<ul>
+<li><code>/System/Library</code>: macOS 自身资源, 位于 System Volume</li>
+<li><code>/Library</code>: 整台机器共享的第三方和可变数据, 通过 firmlink 位于 Data Volume</li>
+<li><code>~/Library</code>: 当前用户自己的应用数据, 位于 <code>/Users/&lt;user&gt;</code> 之下, 自然也属于 Data Volume</li>
+</ul>
+<p>Applications 也进行了类似拆分: Apple 随系统提供的应用主要位于 <code>/System/Applications</code>, 用户安装的应用位于 <code>/Applications</code></p>
+<p><code>/private</code> 则承担了很多不适合直接展示给普通用户的可变系统状态; 其中 <code>/private/etc</code> 保存本机配置, <code>/private/var</code> 保存日志, 数据库和运行状态, <code>/private/tmp</code> 保存临时文件, 根目录中的 <code>/etc</code>, <code>/var</code>, <code>/tmp</code> 只是它们的传统入口</p>
+<p><code>/Volumes</code> 是一个比较特殊的叠加例子: <code>/Volumes</code> 目录本身通过 firmlink 位于 Data Volume, 当外置磁盘接入后, 系统又把新的文件系统 mount 到 <code>/Volumes/&lt;name&gt;</code>, 因此路径解析会先经过 firmlink, 再跨过 mount point 进入外部文件系统</p>
+<h3 id="普通符号链接">普通符号链接</h3>
+<p>根目录中还保留了传统 BSD 路径的符号链接:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc -&gt; private/etc</span><br><span class="line">/tmp -&gt; private/tmp</span><br><span class="line">/var -&gt; private/var</span><br></pre></td></tr></table></figure>
+<p>解析 <code>/etc/hosts</code> 时, 系统首先根据普通 symbolic link 转到 <code>/private/etc/hosts</code>, 再通过 <code>/private</code> 的 firmlink 进入 Data Volume; 所以一条路径解析过程中可以同时经过 symbolic link 和 firmlink</p>
+<p><code>/home</code> 在 macOS 中也不是本地用户的默认 home 根目录, 它通常指向 Data Volume 中由 autofs 管理的位置; autofs 会在路径被访问时按规则自动挂载资源, 传统上可用于网络 home 目录, macOS 本地用户的 home 仍然是 <code>/Users/&lt;user&gt;</code></p>
+<h3 id="运行时挂载的路径">运行时挂载的路径</h3>
+<p>有些根路径既不是 System 文件, 也不是 Data 中的普通目录, 而是在系统启动或设备接入时动态挂载:</p>
+<ul>
+<li><code>/dev</code>: 挂载 devfs, 由内核动态提供磁盘, 终端和伪设备等设备节点</li>
+<li><code>/Volumes/&lt;name&gt;</code>: 挂载外置磁盘, 磁盘映像和网络文件系统</li>
+<li><code>/System/Volumes/VM</code>: 挂载 APFS VM Volume</li>
+<li><code>/System/Volumes/Preboot</code>: 挂载 APFS Preboot Volume</li>
+<li><code>/System/Volumes/Update</code>: 系统更新期间使用的 APFS Volume</li>
+</ul>
+<p><code>mount</code> 展示的是这些真实的文件系统挂载关系, 而 firmlink 和 symbolic link 只影响路径解析, 因此不会各自多出一条 mount 记录</p>
+<h2 id="synthetic-conf">synthetic.conf</h2>
+<p>根 System Volume 只读之后, 用户无法直接在 <code>/</code> 下新建目录; 但某些软件和企业环境需要 <code>/nix</code> 或自定义 NFS mount point 之类的根路径, macOS 因此还提供了 <code>synthetic.conf</code></p>
+<p>配置文件位于 <code>/etc/synthetic.conf</code>, 由 <code>apfs.util</code> 在启动早期读取, 可以声明由内核合成的根目录项; 一列配置表示创建一个虚拟空目录, 通常用于提供 mount point, 两列配置则表示创建指向第二列路径的 symbolic link, 两列之间必须使用 tab 分隔</p>
+<p>例如将 Data Volume 中的 <code>foo</code> 暴露为 <code>/foo</code>:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># /etc/synthetic.conf</span><br><span class="line">foo	System/Volumes/Data/foo</span><br></pre></td></tr></table></figure>
+<p>这里的配置使用两列形式, 第一列是根目录下的名称, 第二列是 symbolic link 的目标; 重启之后, 根目录中会出现 <code>/foo</code>, 但这个目录项不是写入 SSV 的真实文件, 而是启动时合成的路径</p>
+<p>synthetic link 与 firmlink 的区别是, 前者是用户可配置的根目录 symbolic link 或 mount point, 后者是 macOS 内部用于连接 System/Data Volume Group 的透明目录机制</p>
+<h2 id="路径解析过程">路径解析过程</h2>
+<p>综合来看, 一个进程访问文件时, 看到的是统一的 VFS 命名空间, 内核会根据路径中遇到的对象逐层决定下一步去哪里</p>
+<p>以三个路径为例:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/System/Library/Frameworks</span><br><span class="line">└── 始终在只读 System snapshot 中解析</span><br><span class="line"></span><br><span class="line">/Users/renxiao/Documents</span><br><span class="line">└── /Users 命中 firmlink</span><br><span class="line">    └── 进入 Data Volume 的 Users/renxiao/Documents</span><br><span class="line"></span><br><span class="line">/var/log</span><br><span class="line">└── /var 是指向 private/var 的 symbolic link</span><br><span class="line">    └── /private 命中 firmlink</span><br><span class="line">        └── 进入 Data Volume 的 private/var/log</span><br></pre></td></tr></table></figure>
+<p>这套设计让 macOS 同时获得了两种看似矛盾的性质:</p>
+<ul>
+<li>系统文件可以整体只读, 签名并通过 snapshot 原子更新</li>
+<li>应用仍然可以使用传统 Unix 根目录结构访问用户数据和可变状态</li>
+</ul>
+<p>从磁盘层面看, macOS 使用的是 Container 中彼此独立的多个 APFS Volume; 从路径层面看, mount, firmlink, symbolic link, synthetic entity 和虚拟文件系统又将这些内容组合成一棵根目录树</p>
+<p>因此理解 macOS 文件系统时, 最重要的是区分<strong>目录树中的路径</strong>与<strong>数据实际所属的 Volume</strong>; <code>/Applications</code> 看起来是 <code>/</code> 的直接子目录, 并不代表它和 <code>/System</code> 存储在同一个卷中</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://support.apple.com/guide/security/seca6147599e/web">Role of Apple File System</a></li>
+<li><a target="_blank" rel="noopener" href="https://support.apple.com/guide/security/secd698747c9/web">Signed system volume security</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/system/fileflags/firmlink">firmlink - Apple Developer Documentation</a></li>
+<li><code>man synthetic.conf</code></li>
+</ul>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -135,7 +372,7 @@
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/6b95c5d6.html">信号处理原理 4</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/171c986.html">科研内容记录</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/f6a30d02.html">mac 配置记录</a></div></section></div>
 
 
 
@@ -217,7 +454,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LDM%E7%AE%80%E4%BB%8B"><span class="toc-text">LDM简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DiT"><span class="toc-text">DiT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Patchify"><span class="toc-text">Patchify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DiT-Block"><span class="toc-text">DiT Block</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#In-Context-Conditioning"><span class="toc-text">In-Context Conditioning</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cross-Attention"><span class="toc-text">Cross Attention</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adaptive-Layer-Norm-adaLN"><span class="toc-text">Adaptive Layer Norm(adaLN)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#adaLN-Zero"><span class="toc-text">adaLN-Zero</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Decoder"><span class="toc-text">Decoder</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E7%A3%81%E7%9B%98%E5%88%B0-APFS-Volume"><span class="toc-text">从磁盘到 APFS Volume</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CoW-clone-%E4%B8%8E-snapshot"><span class="toc-text">CoW, clone 与 snapshot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E4%B8%AA-APFS-%E5%8D%B7%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">各个 APFS 卷的作用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#System-Volume-%E4%B8%8E-Data-Volume"><span class="toc-text">System Volume 与 Data Volume</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#System-Volume"><span class="toc-text">System Volume</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data-Volume"><span class="toc-text">Data Volume</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#firmlink"><span class="toc-text">firmlink</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#firmlink-%E6%98%A0%E5%B0%84%E8%A1%A8"><span class="toc-text">firmlink 映射表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#firmlink-%E4%B8%8E%E5%85%B6%E4%BB%96%E9%93%BE%E6%8E%A5%E6%9C%BA%E5%88%B6"><span class="toc-text">firmlink 与其他链接机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B9%E7%9B%AE%E5%BD%95%E6%98%AF%E5%A6%82%E4%BD%95%E7%BB%84%E6%88%90%E7%9A%84"><span class="toc-text">根目录是如何组成的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#System-Volume-%E6%8F%90%E4%BE%9B%E7%9A%84%E8%B7%AF%E5%BE%84"><span class="toc-text">System Volume 提供的路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-firmlink-%E6%9D%A5%E8%87%AA-Data-Volume-%E7%9A%84%E8%B7%AF%E5%BE%84"><span class="toc-text">通过 firmlink 来自 Data Volume 的路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5"><span class="toc-text">普通符号链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%8C%82%E8%BD%BD%E7%9A%84%E8%B7%AF%E5%BE%84"><span class="toc-text">运行时挂载的路径</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#synthetic-conf"><span class="toc-text">synthetic.conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B"><span class="toc-text">路径解析过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M10.46 1.25h3.08c1.603 0 2.86 0 3.864.095c1.023.098 1.861.3 2.6.752a5.75 5.75 0 0 1 1.899 1.899c.452.738.654 1.577.752 2.6c.095 1.004.095 2.261.095 3.865v1.067c0 1.141 0 2.036-.05 2.759c-.05.735-.153 1.347-.388 1.913a5.75 5.75 0 0 1-3.112 3.112c-.805.334-1.721.408-2.977.43a10.81 10.81 0 0 0-.929.036c-.198.022-.275.054-.32.08c-.047.028-.112.078-.224.232c-.121.166-.258.396-.476.764l-.542.916c-.773 1.307-2.69 1.307-3.464 0l-.542-.916a10.605 10.605 0 0 0-.476-.764c-.112-.154-.177-.204-.224-.232c-.045-.026-.122-.058-.32-.08c-.212-.023-.49-.03-.93-.037c-1.255-.021-2.171-.095-2.976-.429A5.75 5.75 0 0 1 1.688 16.2c-.235-.566-.338-1.178-.389-1.913c-.049-.723-.049-1.618-.049-2.76v-1.066c0-1.604 0-2.86.095-3.865c.098-1.023.3-1.862.752-2.6a5.75 5.75 0 0 1 1.899-1.899c.738-.452 1.577-.654 2.6-.752C7.6 1.25 8.857 1.25 10.461 1.25M6.739 2.839c-.914.087-1.495.253-1.959.537A4.25 4.25 0 0 0 3.376 4.78c-.284.464-.45 1.045-.537 1.96c-.088.924-.089 2.11-.089 3.761v1c0 1.175 0 2.019.046 2.685c.045.659.131 1.089.278 1.441a4.25 4.25 0 0 0 2.3 2.3c.515.214 1.173.294 2.429.316h.031c.398.007.747.013 1.037.045c.311.035.616.104.909.274c.29.17.5.395.682.645c.169.232.342.525.538.856l.559.944a.52.52 0 0 0 .882 0l.559-.944c.196-.331.37-.624.538-.856c.182-.25.392-.476.682-.645c.293-.17.598-.24.909-.274c.29-.032.639-.038 1.037-.045h.032c1.255-.022 1.913-.102 2.428-.316a4.25 4.25 0 0 0 2.3-2.3c.147-.352.233-.782.278-1.441c.046-.666.046-1.51.046-2.685v-1c0-1.651 0-2.837-.089-3.762c-.087-.914-.253-1.495-.537-1.959a4.25 4.25 0 0 0-1.403-1.403c-.464-.284-1.045-.45-1.96-.537c-.924-.088-2.11-.089-3.761-.089h-3c-1.651 0-2.837 0-3.762.089" clip-rule="evenodd"/><path fill="currentColor" d="M9 11a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><span>参与讨论</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
