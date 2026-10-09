@@ -84,7 +84,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E9%97%B2%E7%9A%84/">闲的</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-08-15T07:07:21.000Z">2026-08-15</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-08-15T13:38:02.161Z">2026-08-15</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：4.5k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：17分</span></div><div class="flex-row" id="tag"> <span>标签：</span><a class="cap breadcrumb-link" href="/tags/%E9%85%8D%E7%BD%AE/">配置</a>&nbsp</div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-08-15T07:07:21.000Z">2026-08-15</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-08-15T13:38:02.161Z">2026-08-15</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：4.5k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：17分</span></div><div class="flex-row" id="tag"><span class="text">标签：</span><a class="cap breadcrumb-link" href="/tags/%E9%85%8D%E7%BD%AE/">配置</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
@@ -95,7 +95,8 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><p>记录一下 macOS 如何利用 APFS Volume Group, Signed System Volume 和 firmlink 组织出最终看到的文件系统</p>
+  </div>
+<article class="md-text content"><p>记录一下 macOS 如何利用 APFS Volume Group, Signed System Volume 和 firmlink 组织出最终看到的文件系统</p>
 <span id="more"></span>
 <p>从目录树来看, macOS 与其他 Unix 系统一样, 所有路径都从 <code>/</code> 开始; 但目录树中的上下级关系只描述如何找到一个文件, 并不保证这些文件真的存储在同一个文件系统中</p>
 <p>macOS 中的 <code>/</code> 并不对应一个完整的可写根分区, 而是由 APFS 中的一组卷共同组成的统一命名空间; <code>/System</code> 等系统目录来自只读卷, <code>/Applications</code> 和 <code>/Users</code> 等可写目录则来自另一个数据卷, 其中最关键的连接机制就是 <strong>APFS Volume Group + firmlink</strong></p>
